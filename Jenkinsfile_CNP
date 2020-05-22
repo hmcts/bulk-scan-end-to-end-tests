@@ -1,0 +1,25 @@
+#!groovy
+
+properties([
+  pipelineTriggers([cron('*/30 * * * *')])
+])
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "bulk-scan"
+def component = "end-to-end-tests"
+
+def channel = '#bsp-build-notices'
+
+withPipeline(type, product, component) {
+    after('functionalTest:aat') {
+      sh "rm -rf infrastructure/"
+    }
+
+    enableAksStagingDeployment()
+    disableLegacyDeployment()
+    nonServiceApp()
+
+    enableSlackNotifications(channel)
+}
