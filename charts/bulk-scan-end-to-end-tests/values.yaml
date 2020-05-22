@@ -1,6 +1,0 @@
-java:
-  applicationPort: 8585
-  image: 'hmctspublic.azurecr.io/bulk-scan/end-to-end-tests:latest'
-  ingressHost: bulk-scan-end-to-end-tests-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-  aadIdentityName: bulk-scan
-  environment:
