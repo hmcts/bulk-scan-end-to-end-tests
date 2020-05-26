@@ -13,9 +13,6 @@ def component = "end-to-end-tests"
 def channel = '#bsp-build-notices'
 
 withPipeline(type, product, component) {
-    after('functionalTest:aat') {
-      sh "rm -rf infrastructure/"
-    }
 
     enableAksStagingDeployment()
     disableLegacyDeployment()
