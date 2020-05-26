@@ -13,6 +13,9 @@ def component = "end-to-end-tests"
 def channel = '#bsp-build-notices'
 
 withPipeline(type, product, component) {
+
+    enableAksStagingDeployment()
+    disableLegacyDeployment()
     nonServiceApp()
 
     enableSlackNotifications(channel)
