@@ -1,0 +1,4 @@
+java:
+  image: 'hmctspublic.azurecr.io/bulk-scan-end-to-end-tests:latest'
+  aadIdentityName: bsp
+  environment:

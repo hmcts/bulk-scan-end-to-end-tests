@@ -1,0 +1,8 @@
+apiVersion: v1
+description: HMCTS Bulk scan end to end tests
+name: bulk-scan-end-to-end-tests
+home: https://github.com/hmcts/bulk-scan-end-to-end-tests
+version: 0.0.1
+maintainers:
+  - name: HMCTS BSP team
+    email: bspteam@hmcts.net
