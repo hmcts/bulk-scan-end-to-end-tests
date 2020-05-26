@@ -7,14 +7,12 @@ properties([
 @Library("Infrastructure")
 
 def type = "java"
-def product = "bulk-scan"
-def component = "end-to-end-tests"
+def product = "hmcts"
+def component = "bulk-scan-end-to-end-tests"
 
 def channel = '#bsp-build-notices'
 
 withPipeline(type, product, component) {
-
-    disableLegacyDeployment()
     nonServiceApp()
 
     enableSlackNotifications(channel)
