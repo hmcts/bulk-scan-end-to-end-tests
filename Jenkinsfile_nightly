@@ -1,20 +1,23 @@
 #!groovy
+@Library("Infrastructure")
+
+import uk.gov.hmcts.contino.GradleBuilder
 
 properties([
   pipelineTriggers([cron('*/30 * * * *')])
 ])
 
-@Library("Infrastructure")
-
 def type = "java"
 def product = "bulk-scan"
 def component = "end-to-end-tests"
+
+GradleBuilder builder = new GradleBuilder(this, product)
 
 withNightlyPipeline(type, product, component) {
   enableFullFunctionalTest()
 
   after('fullFunctionalTest') {
-    sh "gradle functional"
+    builder.gradle('functional')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 
