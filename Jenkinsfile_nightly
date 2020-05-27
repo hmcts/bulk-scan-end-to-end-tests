@@ -18,7 +18,6 @@ withNightlyPipeline(type, product, component) {
 
   after('fullFunctionalTest') {
     builder.gradle('functional')
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 
   enableSlackNotifications('#bsp-build-notices')
