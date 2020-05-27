@@ -14,7 +14,7 @@ withNightlyPipeline(type, product, component) {
   enableFullFunctionalTest()
 
   after('fullFunctionalTest') {
-    sh "./gradlew functional"
+    sh "gradle functional"
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 
