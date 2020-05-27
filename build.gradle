@@ -50,6 +50,10 @@ task functional(type: Test) {
   group = "Verification"
   testClassesDirs = sourceSets.functionalTest.output.classesDirs
   classpath = sourceSets.functionalTest.runtimeClasspath
+  useJUnitPlatform()
+  testLogging {
+    exceptionFormat = 'full'
+  }
 }
 
 checkstyle {
@@ -148,7 +152,9 @@ dependencies {
 
   testImplementation libraries.junit5
 
-  functionalTestImplementation sourceSets.main.runtimeClasspath
+  functionalTestCompile sourceSets.main.runtimeClasspath
+  functionalTestCompile sourceSets.test.runtimeClasspath
+  functionalTestCompile group: 'com.typesafe', name: 'config', version: '1.4.0'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.bulkscan.endtoendtests.Application'

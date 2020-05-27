@@ -11,5 +11,6 @@ def product = "bulk-scan"
 def component = "end-to-end-tests"
 
 withNightlyPipeline(type, product, component) {
+  enableFullFunctionalTest()
   enableSlackNotifications('#bsp-build-notices')
 }
