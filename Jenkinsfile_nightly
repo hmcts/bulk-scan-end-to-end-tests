@@ -12,5 +12,8 @@ def component = "end-to-end-tests"
 
 withNightlyPipeline(type, product, component) {
   enableFullFunctionalTest()
+  after('fullFunctionalTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
   enableSlackNotifications('#bsp-build-notices')
 }
