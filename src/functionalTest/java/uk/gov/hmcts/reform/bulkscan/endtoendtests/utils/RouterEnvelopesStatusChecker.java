@@ -11,18 +11,19 @@ public final class RouterEnvelopesStatusChecker {
      * Checks the status of envelope with given file name in blob-router.
      */
     public static String checkStatus(String fileName) {
-        var resp = RestAssured
+        var responseBody = RestAssured
             .given()
             .relaxedHTTPSValidation()
             .baseUri(blobRouterUrl)
             .queryParam("file_name", fileName)
             .get("/envelopes")
-            .andReturn();
+            .andReturn()
+            .body();
 
-        if (resp.body().jsonPath().getList("data").isEmpty()) {
+        if (responseBody.jsonPath().getList("data").isEmpty()) {
             return null;
         } else {
-            return resp.body().jsonPath().getString("data[0].status");
+            return responseBody.jsonPath().getString("data[0].status");
         }
     }
 
