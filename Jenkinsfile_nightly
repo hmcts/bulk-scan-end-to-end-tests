@@ -14,7 +14,9 @@ def component = "end-to-end-tests"
 GradleBuilder builder = new GradleBuilder(this, product)
 
 withNightlyPipeline(type, product, component) {
+
   env.BLOB_ROUTER_URL = 'http://reform-scan-blob-router-aat.service.core-compute-aat.internal'
+  env.PROCESSOR_URL = 'http://bulk-scan-processor-aat.service.core-compute-aat.internal'
 
   enableFullFunctionalTest()
 
