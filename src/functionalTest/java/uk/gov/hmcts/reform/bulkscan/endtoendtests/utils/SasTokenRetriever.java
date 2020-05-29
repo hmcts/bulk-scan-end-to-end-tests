@@ -24,4 +24,7 @@ public final class SasTokenRetriever {
             .body()
             .toString();
     }
+
+    private SasTokenRetriever() {
+    }
 }
