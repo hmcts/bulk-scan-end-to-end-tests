@@ -148,19 +148,19 @@ ext.libraries = [
 ]
 
 dependencies {
-  compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
-  compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.13.3'
-  compile group: 'com.azure', name: 'azure-storage-blob', version: '12.6.1'
-  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.13.3'
+  implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.6.1'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
 
   testImplementation libraries.junit5
 
-  functionalTestCompile sourceSets.main.runtimeClasspath
-  functionalTestCompile sourceSets.test.runtimeClasspath
+  functionalTestImplementation sourceSets.main.runtimeClasspath
+  functionalTestImplementation sourceSets.test.runtimeClasspath
 
-  functionalTestCompile group: 'com.typesafe', name: 'config', version: '1.4.0'
-  functionalTestCompile group: 'org.assertj', name: 'assertj-core', version: '3.16.1'
-  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
+  functionalTestImplementation group: 'com.typesafe', name: 'config', version: '1.4.0'
+  functionalTestImplementation group: 'org.assertj', name: 'assertj-core', version: '3.16.1'
+  functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.bulkscan.endtoendtests.Application'
