@@ -26,4 +26,7 @@ public final class ProcessorEnvelopeStatusChecker {
             return responseBody.jsonPath().getString("envelopes[0].status");
         }
     }
+
+    private ProcessorEnvelopeStatusChecker() {
+    }
 }
