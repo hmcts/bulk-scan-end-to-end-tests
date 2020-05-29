@@ -3,7 +3,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests.utils;
 import com.typesafe.config.ConfigFactory;
 import io.restassured.RestAssured;
 
-public class RouterEnvelopesStatusChecker {
+public final class RouterEnvelopesStatusChecker {
 
     private static final String blobRouterUrl = ConfigFactory.load().getString("blob-router-url");
 
@@ -24,5 +24,8 @@ public class RouterEnvelopesStatusChecker {
         } else {
             return resp.body().jsonPath().getString("data[0].status");
         }
+    }
+
+    private RouterEnvelopesStatusChecker() {
     }
 }
