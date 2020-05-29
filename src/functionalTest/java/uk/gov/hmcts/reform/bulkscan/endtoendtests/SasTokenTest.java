@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SasTokenTest {
 
-    private static String blobRouterUrl = ConfigFactory.load().getString("storage-account-url");
+    private static String blobRouterUrl = ConfigFactory.load().getString("blob-router-url");
 
     @Test
     public void testSasToken() {
