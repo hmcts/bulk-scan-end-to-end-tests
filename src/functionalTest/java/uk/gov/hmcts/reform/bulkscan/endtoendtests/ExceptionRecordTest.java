@@ -38,7 +38,7 @@ public class ExceptionRecordTest {
         await("Exception record is created for " + zipFileName)
             .atMost(60, TimeUnit.SECONDS)
             .pollInterval(500, TimeUnit.MILLISECONDS)
-            .until(() -> ProcessorEnvelopeStatusChecker.checkStatus(zipFileName).equals("COMPLETED")
+            .until(() -> ProcessorEnvelopeStatusChecker.checkStatus(zipFileName).equals("NOTIFICATION_SENT")
             );
     }
 
