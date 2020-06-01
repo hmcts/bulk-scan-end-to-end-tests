@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.bulkscan.endtoendtests.utils;
+package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
