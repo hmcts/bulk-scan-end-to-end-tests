@@ -17,6 +17,7 @@ withNightlyPipeline(type, product, component) {
 
   env.BLOB_ROUTER_URL = 'http://reform-scan-blob-router-aat.service.core-compute-aat.internal'
   env.PROCESSOR_URL = 'http://bulk-scan-processor-aat.service.core-compute-aat.internal'
+  env.STORAGE_ACCOUNT_URL = 'https://reformscan.aat.platform.hmcts.net'
 
   enableFullFunctionalTest()
 
