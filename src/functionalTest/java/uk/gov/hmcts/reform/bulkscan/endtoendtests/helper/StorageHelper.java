@@ -4,6 +4,7 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.SasTokenRetriever;
 
 import java.io.ByteArrayInputStream;
 
@@ -18,7 +19,7 @@ public final class StorageHelper {
     }
 
     public static void uploadZipFle(String container, String fileName, byte[] zipFileContent) {
-        String sasToken = ""; // TODO: use sas token helper
+        String sasToken = SasTokenRetriever.getTokenFor(container);
 
         BlobContainerClient blobContainerClient =
             new BlobContainerClientBuilder()
