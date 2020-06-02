@@ -36,8 +36,8 @@ public final class ZipFileHelper {
 
         byte[] zipContents = createZipArchiveWithDocumentsAndMetadata(pdfFiles, metadataContent);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (ZipOutputStream zos = new ZipOutputStream(outputStream)) {
+        var outputStream = new ByteArrayOutputStream();
+        try (var zos = new ZipOutputStream(outputStream)) {
             zos.putNextEntry(new ZipEntry(ENVELOPE_ZIPFILE_NAME));
             zos.write(zipContents);
             zos.closeEntry();
@@ -61,8 +61,8 @@ public final class ZipFileHelper {
     private static byte[] createZipArchiveWithDocumentsAndMetadata(
         List<String> pdfFiles, String metadataContent
     ) throws Exception {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (ZipOutputStream zos = new ZipOutputStream(outputStream)) {
+        var outputStream = new ByteArrayOutputStream();
+        try (var zos = new ZipOutputStream(outputStream)) {
             for (String pdf : pdfFiles) {
                 zos.putNextEntry(new ZipEntry(pdf));
                 zos.write(Resources.toByteArray(Resources.getResource(pdf)));
