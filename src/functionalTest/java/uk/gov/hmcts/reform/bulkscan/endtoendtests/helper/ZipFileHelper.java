@@ -12,6 +12,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static com.google.common.io.Resources.getResource;
+import static com.google.common.io.Resources.toByteArray;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public final class ZipFileHelper {
@@ -59,13 +61,14 @@ public final class ZipFileHelper {
     }
 
     private static byte[] createZipArchiveWithDocumentsAndMetadata(
-        List<String> pdfFiles, String metadataContent
+        List<String> pdfFiles,
+        String metadataContent
     ) throws Exception {
         var outputStream = new ByteArrayOutputStream();
         try (var zos = new ZipOutputStream(outputStream)) {
             for (String pdf : pdfFiles) {
                 zos.putNextEntry(new ZipEntry(pdf));
-                zos.write(Resources.toByteArray(Resources.getResource(pdf)));
+                zos.write(toByteArray(getResource(pdf)));
                 zos.closeEntry();
             }
 
@@ -83,7 +86,7 @@ public final class ZipFileHelper {
         assertThat(metadataFile).isNotBlank();
 
         String metadataTemplate =
-            Resources.toString(Resources.getResource(metadataFile), StandardCharsets.UTF_8);
+            Resources.toString(getResource(metadataFile), StandardCharsets.UTF_8);
 
         return metadataTemplate
             .replace("$$zip_file_name$$", zipFileName)
