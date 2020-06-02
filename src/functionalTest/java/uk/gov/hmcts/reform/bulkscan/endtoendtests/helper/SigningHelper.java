@@ -11,7 +11,7 @@ public final class SigningHelper {
 
     public static byte[] sign(byte[] input) throws Exception {
         byte[] keyBytes = toByteArray(getResource("test_private_key.der"));
-        Signature signature = Signature.getInstance("SHA256withRSA");
+        var signature = Signature.getInstance("SHA256withRSA");
         signature.initSign(KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(keyBytes)));
         signature.update(input);
         return signature.sign();
