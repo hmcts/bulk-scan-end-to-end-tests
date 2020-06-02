@@ -11,9 +11,24 @@ def type = "java"
 def product = "bulk-scan"
 def component = "end-to-end-tests"
 
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [$class     : 'AzureKeyVaultSecret',
+   secretType : 'Secret',
+   name       : secretName,
+   version    : '',
+   envVariable: envVar
+  ]
+}
+
 GradleBuilder builder = new GradleBuilder(this, product)
 
 withNightlyPipeline(type, product, component) {
+
+  loadVaultSecrets([
+    'reform-scan-aat': [
+      secret('test-signing-key-der-base64', 'SIGNING_KEY_DER_BASE64')
+    ]
+  ])
 
   env.BLOB_ROUTER_URL = 'http://reform-scan-blob-router-aat.service.core-compute-aat.internal'
   env.PROCESSOR_URL = 'http://bulk-scan-processor-aat.service.core-compute-aat.internal'
@@ -26,12 +41,12 @@ withNightlyPipeline(type, product, component) {
     junit 'build/test-results/functional/**/*.xml'
     archiveArtifacts 'build/reports/tests/functional/index.html'
     publishHTML target: [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "build/reports/tests/functional",
-            reportFiles          : "index.html",
-            reportName           : "Functional test report"
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "build/reports/tests/functional",
+      reportFiles          : "index.html",
+      reportName           : "Functional test report"
     ]
   }
 

@@ -16,7 +16,6 @@ public final class SasTokenRetriever {
             .given()
             .relaxedHTTPSValidation()
             .baseUri(blobRouterUrl)
-            .proxy("proxyout.reform.hmcts.net", 8080)
             .header(HttpHeaders.CONTENT_TYPE, "application/json")
             .get("/token/" + jurisdiction)
             .then()
