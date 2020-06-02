@@ -11,24 +11,9 @@ def type = "java"
 def product = "bulk-scan"
 def component = "end-to-end-tests"
 
-static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
-  [$class     : 'AzureKeyVaultSecret',
-   secretType : 'Secret',
-   name       : secretName,
-   version    : '',
-   envVariable: envVar
-  ]
-}
-
 GradleBuilder builder = new GradleBuilder(this, product)
 
 withNightlyPipeline(type, product, component) {
-
-  loadVaultSecrets([
-    'reform-scan-aat': [
-      secret('test-signing-key-der', 'SIGNING_KEY_DER')
-    ]
-  ])
 
   env.BLOB_ROUTER_URL = 'http://reform-scan-blob-router-aat.service.core-compute-aat.internal'
   env.PROCESSOR_URL = 'http://bulk-scan-processor-aat.service.core-compute-aat.internal'
