@@ -44,7 +44,7 @@ public final class ZipFileHelper {
 
             // add signature
             zos.putNextEntry(new ZipEntry(SIGNATURE_FILE_NAME));
-            zos.write(Resources.toByteArray(Resources.getResource(SIGNATURE_FILE_NAME)));
+            zos.write(SigningHelper.sign(zipContents));
             zos.closeEntry();
         }
         return outputStream.toByteArray();
