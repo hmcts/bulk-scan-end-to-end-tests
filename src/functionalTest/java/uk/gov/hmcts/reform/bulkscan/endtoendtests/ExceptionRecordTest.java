@@ -6,6 +6,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.RouterEnvelopesStatusChecker;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.jayway.awaitility.Awaitility.await;
@@ -27,19 +28,14 @@ public class ExceptionRecordTest {
         // upload zip file
         StorageHelper.uploadZipFle("bulkscan", zipFileName, zipArchive);
 
-        // verify zip file status
         await("File " + zipFileName + " should be dispatched")
             .atMost(60, TimeUnit.SECONDS)
             .pollInterval(500, TimeUnit.MILLISECONDS)
-            .until(() -> RouterEnvelopesStatusChecker.checkStatus(zipFileName).equals("DISPATCHED")
-            );
+            .until(() -> Objects.equals(RouterEnvelopesStatusChecker.checkStatus(zipFileName), "DISPATCHED"));
 
-        // verify zip file is processed
         await("Exception record is created for " + zipFileName)
             .atMost(60, TimeUnit.SECONDS)
             .pollInterval(500, TimeUnit.MILLISECONDS)
-            .until(() -> ProcessorEnvelopeStatusChecker.checkStatus(zipFileName).equals("NOTIFICATION_SENT")
-            );
+            .until(() -> Objects.equals(ProcessorEnvelopeStatusChecker.checkStatus(zipFileName), "NOTIFICATION_SENT"));
     }
-
 }
