@@ -26,7 +26,7 @@ public class ExceptionRecordTest {
         );
 
         // upload zip file
-        StorageHelper.uploadZipFle("bulkscan", zipFileName, zipArchive);
+        StorageHelper.uploadZipFile("bulkscan", zipFileName, zipArchive);
 
         await("File " + zipFileName + " should be dispatched")
             .atMost(60, TimeUnit.SECONDS)
