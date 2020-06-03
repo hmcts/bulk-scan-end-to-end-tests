@@ -1,0 +1,21 @@
+name: Jenkins
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create Jenkinsfile
+        uses: canastro/copy-file-action@0.0.2
+        with:
+          source: Jenkinsfile_nightly
+          target: Jenkinsfile
+      - name: Jenkinsfile Rrunner
+        uses: jenkinsci/jenkinsfile-runner-github-actions/jenkinsfile-runner-prepackaged@v0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
