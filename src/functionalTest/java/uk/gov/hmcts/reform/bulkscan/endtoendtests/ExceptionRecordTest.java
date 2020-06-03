@@ -38,4 +38,27 @@ public class ExceptionRecordTest {
             .pollInterval(500, TimeUnit.MILLISECONDS)
             .until(() -> Objects.equals(ProcessorEnvelopeStatusChecker.checkStatus(zipFileName), "NOTIFICATION_SENT"));
     }
+
+    @Test
+    public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence_with_ocr_classification()
+        throws Exception {
+        String zipFileName = ZipFileHelper.randomFileName();
+
+        var zipArchive = ZipFileHelper.createZipArchive(
+            singletonList("1111002.pdf"),
+            "supplementary_evidence_with_ocr_metadata.json",
+            zipFileName
+        );
+
+        await("File " + zipFileName + " should be dispatched")
+            .atMost(60, TimeUnit.SECONDS)
+            .pollInterval(500, TimeUnit.MILLISECONDS)
+            .until(() -> Objects.equals(RouterEnvelopesStatusChecker.checkStatus(zipFileName), "DISPATCHED"));
+
+        await("Exception record is created for " + zipFileName)
+            .atMost(60, TimeUnit.SECONDS)
+            .pollInterval(500, TimeUnit.MILLISECONDS)
+            .until(() -> Objects.equals(ProcessorEnvelopeStatusChecker.checkStatus(zipFileName), "NOTIFICATION_SENT"));
+
+    }
 }
