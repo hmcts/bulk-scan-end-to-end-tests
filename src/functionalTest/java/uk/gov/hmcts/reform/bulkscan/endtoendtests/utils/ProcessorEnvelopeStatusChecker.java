@@ -27,6 +27,25 @@ public final class ProcessorEnvelopeStatusChecker {
         }
     }
 
+    public static boolean checkEnvelope(String fileName, String status, String ccdAction) {
+        var responseBody = RestAssured
+            .given()
+            .relaxedHTTPSValidation()
+            .baseUri(processorUrl)
+            .queryParam("name", fileName)
+            .get("/zip-files")
+            .andReturn()
+            .body();
+
+        if (responseBody.jsonPath().getList("envelopes").isEmpty()) {
+            return false;
+        } else {
+            return responseBody.jsonPath().getString("envelopes[0].status").equals(status)
+                && responseBody.jsonPath().getString("envelopes[0].envelopeCcdAction").equals(status)
+                && !responseBody.jsonPath().getString("envelopes[0].ccd_id").isBlank();
+        }
+    }
+
     private ProcessorEnvelopeStatusChecker() {
     }
 }
