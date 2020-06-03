@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.jayway.awaitility.Awaitility.await;
 import static java.util.Collections.singletonList;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.checkEnvelope;
 
 public class ExceptionRecordTest {
 
@@ -58,7 +59,7 @@ public class ExceptionRecordTest {
         await("Exception record is created for " + zipFileName)
             .atMost(60, TimeUnit.SECONDS)
             .pollInterval(500, TimeUnit.MILLISECONDS)
-            .until(() -> ProcessorEnvelopeStatusChecker.checkEnvelope(zipFileName, "NOTIFICATION_SENT", "EXCEPTION_RECORD"));
+            .until(() -> checkEnvelope(zipFileName, "NOTIFICATION_SENT", "EXCEPTION_RECORD"));
 
     }
 }
