@@ -4,6 +4,8 @@ properties([
   pipelineTriggers([cron('*/30 * * * *')])
 ])
 
+@Library("Infrastructure")
+
 def type = "java"
 def product = "bulk-scan"
 def component = "end-to-end-tests"
