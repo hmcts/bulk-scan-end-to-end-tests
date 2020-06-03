@@ -1,8 +1,6 @@
 #!groovy
 @Library("Infrastructure")
 
-import uk.gov.hmcts.contino.GradleBuilder
-
 properties([
   pipelineTriggers([cron('*/30 * * * *')])
 ])
@@ -20,8 +18,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
-GradleBuilder builder = new GradleBuilder(this, product)
-
 withNightlyPipeline(type, product, component) {
 
   loadVaultSecrets([
@@ -37,7 +33,6 @@ withNightlyPipeline(type, product, component) {
   enableFullFunctionalTest()
 
   after('fullFunctionalTest') {
-    builder.gradle('functional')
     junit 'build/test-results/functional/**/*.xml'
     archiveArtifacts 'build/reports/tests/functional/index.html'
     publishHTML target: [
