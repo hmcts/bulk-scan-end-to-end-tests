@@ -1,5 +1,4 @@
 #!groovy
-@Library("Infrastructure")
 
 properties([
   pipelineTriggers([cron('*/30 * * * *')])
