@@ -10,15 +10,9 @@ public enum Classification {
     private final String value;
 
     /**
-     * <p>We accept mixed cases here as that does not change the value semantically
-     * and this allows us to be permissive in what we accept.</p>
-     *
-     * <p>When a classification value is instead serialized to Json only lowercase
-     * is used as the corresponding field in the external model is a String which
-     * is populated using the toString() method in this class (see EnvelopeResponse).
-     * This means that we are strict with what we send.</p>
-     *
-     * @param value the classification type
+     * Validation in blob processor service uses lowercase.
+     * Applying such feature through this value and {@link Classification#toString()} method here.
+     * @param value The classification type
      */
     Classification(final String value) {
         this.value = value.toLowerCase();
