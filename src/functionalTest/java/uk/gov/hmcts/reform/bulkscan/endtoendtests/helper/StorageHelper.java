@@ -4,6 +4,7 @@ import com.azure.core.http.ProxyOptions;
 import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.typesafe.config.ConfigFactory;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper.ZipArchive;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.SasTokenRetriever;
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +22,7 @@ public final class StorageHelper {
         // utility class
     }
 
-    public static void uploadZipFile(String container, String fileName, byte[] zipFileContent) {
+    public static void uploadZipFile(String container, ZipArchive zipArchive) {
         String sasToken = SasTokenRetriever.getTokenFor(container);
 
         new BlobContainerClientBuilder()
@@ -35,7 +36,7 @@ public final class StorageHelper {
                             )
                             .build())
             .buildClient()
-            .getBlobClient(fileName)
-            .upload(new ByteArrayInputStream(zipFileContent), zipFileContent.length);
+            .getBlobClient(zipArchive.fileName)
+            .upload(new ByteArrayInputStream(zipArchive.content), zipArchive.content.length);
     }
 }
