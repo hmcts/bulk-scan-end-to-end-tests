@@ -13,17 +13,16 @@ public class NewApplicationPaymentsTest {
 
     @Test
     public void should_upload_blob_and_create_exception_record() throws Exception {
-        String zipFileName = ZipFileHelper.randomFileName(FILE_NAME_PREFIX);
 
         var zipArchive = ZipFileHelper.createZipArchive(
+            FILE_NAME_PREFIX,
             singletonList("test-data/new-application-payments/1111002.pdf"),
-            "test-data/new-application-payments/metadata.json",
-            zipFileName
+            "test-data/new-application-payments/metadata.json"
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipFileName, zipArchive);
+        StorageHelper.uploadZipFile("bulkscan", zipArchive);
 
-        Await.envelopeDispatched(zipFileName);
-        Await.envelopeCompleted(zipFileName);
+        Await.envelopeDispatched(zipArchive.fileName);
+        Await.envelopeCompleted(zipArchive.fileName);
     }
 }
