@@ -21,6 +21,11 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withNightlyPipeline(type, product, component) {
 
+  onPR {
+                sh "./gradlew  functional"
+
+    }
+  
   loadVaultSecrets([
     'reform-scan-aat': [
       secret('test-signing-key-der-base64', 'SIGNING_KEY_DER_BASE64')
