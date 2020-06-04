@@ -25,3 +25,5 @@ jobs:
           java-version: 11
       - name: Run checks
         run: ./gradlew check
+      - name: Run functional tests
+        run: ./gradlew functional
