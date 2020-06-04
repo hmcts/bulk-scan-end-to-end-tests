@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
 public class ExceptionRecordTest {
 
@@ -33,14 +34,17 @@ public class ExceptionRecordTest {
         String zipFileName = ZipFileHelper.randomFileName();
 
         var zipArchive = ZipFileHelper.createZipArchive(
-            singletonList("1111002.pdf"),
-            "supplementary_evidence_with_ocr_metadata.json",
+            singletonList("test-data/exception/1111002.pdf"),
+            "test-data/exception/supplementary_evidence_with_ocr_metadata.json",
             zipFileName
         );
 
-        Await.envelopeDispatched(zipFileName);
-        ProcessorEnvelopeResult processorEnvelopeResult = Await.envelopeCompleted(zipFileName);
+        StorageHelper.uploadZipFile("bulkscan", zipFileName, zipArchive);
 
+        Await.envelopeDispatched(zipFileName);
+        Await.envelopeCompleted(zipFileName);
+
+        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
         assertThat(processorEnvelopeResult.ccdId).isNotBlank();
         assertThat(processorEnvelopeResult.container).isEqualTo("bulkscan");
         assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
