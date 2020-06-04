@@ -9,9 +9,11 @@ import static java.util.Collections.singletonList;
 
 public class NewApplicationPaymentsTest {
 
+    private static final String FILE_NAME_PREFIX = "new_appl_paym_";
+
     @Test
     public void should_upload_blob_and_create_exception_record() throws Exception {
-        String zipFileName = ZipFileHelper.randomFileName();
+        String zipFileName = ZipFileHelper.randomFileName(FILE_NAME_PREFIX);
 
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/new-application-payments/1111002.pdf"),

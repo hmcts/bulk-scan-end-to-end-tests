@@ -54,8 +54,12 @@ public final class ZipFileHelper {
     }
 
     public static String randomFileName() {
+        return randomFileName("");
+    }
+
+    public static String randomFileName(String prefix) {
         return String.format(
-            "%s_%s.test.zip",
+            prefix + "%s_%s.test.zip",
             ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE),
             LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
         );
