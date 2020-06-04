@@ -12,6 +12,8 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelope
 
 public class ExceptionRecordTest {
 
+    private static final String CONTAINER_BULKSCAN = "bulkscan";
+
     @Test
     public void should_upload_blob_and_create_exception_record() throws Exception {
         String zipFileName = ZipFileHelper.randomFileName();
@@ -22,7 +24,7 @@ public class ExceptionRecordTest {
             zipFileName
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipFileName, zipArchive);
+        StorageHelper.uploadZipFile(CONTAINER_BULKSCAN, zipFileName, zipArchive);
 
         Await.envelopeDispatched(zipFileName);
         Await.envelopeCompleted(zipFileName);
@@ -39,15 +41,39 @@ public class ExceptionRecordTest {
             zipFileName
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipFileName, zipArchive);
+        StorageHelper.uploadZipFile(CONTAINER_BULKSCAN, zipFileName, zipArchive);
 
         Await.envelopeDispatched(zipFileName);
         Await.envelopeCompleted(zipFileName);
 
         //get the process result again to assert
+        assertCompletedProcessorResult(zipFileName);
+    }
+
+    @Test
+    public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence()
+        throws Exception {
+        String zipFileName = ZipFileHelper.randomFileName();
+
+        var zipArchive = ZipFileHelper.createZipArchive(
+            singletonList("test-data/exception/1111002.pdf"),
+            "test-data/exception/supplementary_evidence_metadata.json",
+            zipFileName
+        );
+
+        StorageHelper.uploadZipFile(CONTAINER_BULKSCAN, zipFileName, zipArchive);
+
+        Await.envelopeDispatched(zipFileName);
+        Await.envelopeCompleted(zipFileName);
+
+        //get the process result again to assert
+        assertCompletedProcessorResult(zipFileName);
+    }
+
+    private void assertCompletedProcessorResult(String zipFileName) {
         ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
         assertThat(processorEnvelopeResult.ccdId).isNotBlank();
-        assertThat(processorEnvelopeResult.container).isEqualTo("bulkscan");
+        assertThat(processorEnvelopeResult.container).isEqualTo(CONTAINER_BULKSCAN);
         assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
         assertThat(processorEnvelopeResult.id).isNotBlank();
         assertThat(processorEnvelopeResult.status).isEqualTo("COMPLETED");
