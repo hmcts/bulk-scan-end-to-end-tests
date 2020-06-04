@@ -14,7 +14,7 @@ public class ExceptionRecordTest {
         String zipFileName = ZipFileHelper.randomFileName();
 
         var zipArchive = ZipFileHelper.createZipArchive(
-            singletonList("test-data/exception/1111002.pdf"),
+            singletonList("test-data/1111002.pdf"),
             "test-data/exception/exception_metadata.json",
             zipFileName
         );
