@@ -5,10 +5,11 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -34,7 +35,11 @@ public final class ZipFileHelper {
         String metadataFile
     ) throws Exception {
 
-        String zipFileName = UUID.randomUUID() + ".zip";
+        String zipFileName = String.format(
+            "%s_%s.test.zip",
+            ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE),
+            LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
+        );
 
         String metadataContent = updateMetadataWithFileNameAndDcns(metadataFile, zipFileName);
 
