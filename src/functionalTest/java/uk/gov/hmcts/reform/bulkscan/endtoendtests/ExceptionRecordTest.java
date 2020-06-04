@@ -44,6 +44,7 @@ public class ExceptionRecordTest {
         Await.envelopeDispatched(zipFileName);
         Await.envelopeCompleted(zipFileName);
 
+        //get the process result again to assert
         ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
         assertThat(processorEnvelopeResult.ccdId).isNotBlank();
         assertThat(processorEnvelopeResult.container).isEqualTo("bulkscan");
