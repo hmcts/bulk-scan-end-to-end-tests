@@ -28,21 +28,19 @@ public class ExceptionRecordTest {
     @Test
     public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence_with_ocr_classification()
         throws Exception {
-        String zipFileName = ZipFileHelper.randomFileName();
 
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/exception/1111002.pdf"),
-            "test-data/exception/supplementary_evidence_with_ocr_metadata.json",
-            zipFileName
+            "test-data/exception/supplementary_evidence_with_ocr_metadata.json"
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipFileName, zipArchive);
+        StorageHelper.uploadZipFile("bulkscan", zipArchive);
 
-        Await.envelopeDispatched(zipFileName);
-        Await.envelopeCompleted(zipFileName);
+        Await.envelopeDispatched(zipArchive.fileName);
+        Await.envelopeCompleted(zipArchive.fileName);
 
         //get the process result again to assert
-        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
+        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipArchive.fileName);
         assertThat(processorEnvelopeResult.ccdId).isNotBlank();
         assertThat(processorEnvelopeResult.container).isEqualTo("bulkscan");
         assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
