@@ -73,7 +73,7 @@ public final class ZipFileHelper {
             }
 
             // add metadata
-            zos.putNextEntry(new ZipEntry("test-data/new-application-payments/metadata.json"));
+            zos.putNextEntry(new ZipEntry("metadata.json"));
             zos.write(metadataContent.getBytes());
             zos.closeEntry();
         }
