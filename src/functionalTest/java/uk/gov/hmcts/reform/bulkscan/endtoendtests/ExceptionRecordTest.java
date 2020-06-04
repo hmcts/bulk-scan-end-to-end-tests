@@ -5,12 +5,9 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.RouterEnvelopesStatusChecker;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getCompletedEnvelope;
 
 public class ExceptionRecordTest {
 
@@ -41,21 +38,13 @@ public class ExceptionRecordTest {
             zipFileName
         );
 
-        await("File " + zipFileName + " should be dispatched")
-            .atMost(60, TimeUnit.SECONDS)
-            .pollInterval(500, TimeUnit.MILLISECONDS)
-            .until(() -> Objects.equals(RouterEnvelopesStatusChecker.checkStatus(zipFileName), "DISPATCHED"));
+        Await.envelopeDispatched(zipFileName);
+        ProcessorEnvelopeResult processorEnvelopeResult = Await.envelopeCompleted(zipFileName);
 
-        ProcessorEnvelopeResult[] processorEnvelopeResult = new ProcessorEnvelopeResult[1];
-        await("Exception record is created for " + zipFileName)
-            .atMost(60, TimeUnit.SECONDS)
-            .pollInterval(500, TimeUnit.MILLISECONDS)
-            .until(() -> (processorEnvelopeResult[0] = getCompletedEnvelope(zipFileName)) != null);
-
-        assertThat(processorEnvelopeResult[0].ccdId).isNotBlank();
-        assertThat(processorEnvelopeResult[0].container).isEqualTo("bulkscan");
-        assertThat(processorEnvelopeResult[0].envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
-        assertThat(processorEnvelopeResult[0].id).isNotBlank();
-        assertThat(processorEnvelopeResult[0].status).isEqualTo("COMPLETED");
+        assertThat(processorEnvelopeResult.ccdId).isNotBlank();
+        assertThat(processorEnvelopeResult.container).isEqualTo("bulkscan");
+        assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
+        assertThat(processorEnvelopeResult.id).isNotBlank();
+        assertThat(processorEnvelopeResult.status).isEqualTo("COMPLETED");
     }
 }
