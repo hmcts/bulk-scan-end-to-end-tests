@@ -23,8 +23,8 @@ public class ExceptionRecordTest {
 
         // create zip file
         var zipArchive = ZipFileHelper.createZipArchive(
-            singletonList("1111002.pdf"),
-            "exception_metadata.json",
+            singletonList("test-data/exception/1111002.pdf"),
+            "test-data/exception/exception_metadata.json",
             zipFileName
         );
 
