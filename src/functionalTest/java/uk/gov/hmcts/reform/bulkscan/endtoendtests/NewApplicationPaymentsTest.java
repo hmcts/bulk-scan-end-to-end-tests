@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 
@@ -20,7 +21,7 @@ public class NewApplicationPaymentsTest {
             "test-data/new-application-payments/metadata.json"
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipArchive);
+        StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
         Await.envelopeDispatched(zipArchive.fileName);
         Await.envelopeCompleted(zipArchive.fileName);

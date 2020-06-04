@@ -22,8 +22,8 @@ public final class StorageHelper {
         // utility class
     }
 
-    public static void uploadZipFile(String container, ZipArchive zipArchive) {
-        String sasToken = SasTokenRetriever.getTokenFor(container);
+    public static void uploadZipFile(Container container, ZipArchive zipArchive) {
+        String sasToken = SasTokenRetriever.getTokenFor(container.name);
 
         new BlobContainerClientBuilder()
             .endpoint(storageUrl + "/" + container)

@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
@@ -19,7 +20,7 @@ public class ExceptionRecordTest {
             "test-data/exception/exception_metadata.json"
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipArchive);
+        StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
         Await.envelopeDispatched(zipArchive.fileName);
         Await.envelopeCompleted(zipArchive.fileName);
@@ -34,7 +35,7 @@ public class ExceptionRecordTest {
             "test-data/exception/supplementary_evidence_with_ocr_metadata.json"
         );
 
-        StorageHelper.uploadZipFile("bulkscan", zipArchive);
+        StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
         Await.envelopeDispatched(zipArchive.fileName);
         Await.envelopeCompleted(zipArchive.fileName);
@@ -42,7 +43,7 @@ public class ExceptionRecordTest {
         //get the process result again to assert
         ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipArchive.fileName);
         assertThat(processorEnvelopeResult.ccdId).isNotBlank();
-        assertThat(processorEnvelopeResult.container).isEqualTo("bulkscan");
+        assertThat(processorEnvelopeResult.container).isEqualTo(Container.BULKSCAN.name);
         assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
         assertThat(processorEnvelopeResult.id).isNotBlank();
         assertThat(processorEnvelopeResult.status).isEqualTo("COMPLETED");
