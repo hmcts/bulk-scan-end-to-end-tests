@@ -31,3 +31,4 @@ jobs:
           BLOB_ROUTER_URL: "http://reform-scan-blob-router-aat.service.core-compute-aat.internal"
           PROCESSOR_URL: "http://bulk-scan-processor-aat.service.core-compute-aat.internal"
           STORAGE_ACCOUNT_URL: "https://reformscan.aat.platform.hmcts.net"
+          SIGNING_KEY_DER_BASE64:  ${{ secrets.SIGNING_KEY_DER_BASE64 }}
