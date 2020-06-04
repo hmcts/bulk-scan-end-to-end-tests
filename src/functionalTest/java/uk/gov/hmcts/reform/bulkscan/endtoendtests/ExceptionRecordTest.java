@@ -41,7 +41,7 @@ public class ExceptionRecordTest {
         Await.envelopeDispatched(zipArchive.fileName);
         Await.envelopeCompleted(zipArchive.fileName);
 
-        //get the process result again to assert
+        //get the process result again and assert
         assertCompletedProcessorResult(zipArchive.fileName);
     }
 
@@ -59,7 +59,7 @@ public class ExceptionRecordTest {
         Await.envelopeDispatched(zipArchive.fileName);
         Await.envelopeCompleted(zipArchive.fileName);
 
-        //get the process result again to assert
+        //get the process result again and assert
         assertCompletedProcessorResult(zipArchive.fileName);
     }
 
