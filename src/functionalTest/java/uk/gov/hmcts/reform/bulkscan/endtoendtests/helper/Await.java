@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.bulkscan.endtoendtests.dsl;
+package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.RouterEnvelopesStatusChecker;

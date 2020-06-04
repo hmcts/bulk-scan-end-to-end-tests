@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.api.Test;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.dsl.Await;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 
