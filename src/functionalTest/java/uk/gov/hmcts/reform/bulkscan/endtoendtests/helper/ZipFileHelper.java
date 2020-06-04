@@ -29,11 +29,13 @@ public final class ZipFileHelper {
         // utility class
     }
 
-    public static byte[] createZipArchive(
+    public static ZipArchive createZipArchive(
         List<String> pdfFiles,
-        String metadataFile,
-        String zipFileName
+        String metadataFile
     ) throws Exception {
+
+        String zipFileName = randomFileName();
+
         String metadataContent = updateMetadataWithFileNameAndDcns(metadataFile, zipFileName);
 
         byte[] zipContents = createZipArchiveWithDocumentsAndMetadata(pdfFiles, metadataContent);
@@ -49,7 +51,11 @@ public final class ZipFileHelper {
             zos.write(SigningHelper.sign(zipContents));
             zos.closeEntry();
         }
-        return outputStream.toByteArray();
+
+        return new ZipArchive(
+            zipFileName,
+            outputStream.toByteArray()
+        );
     }
 
     public static String randomFileName() {
@@ -95,5 +101,15 @@ public final class ZipFileHelper {
 
     private static String generateDcnNumber() {
         return Long.toString(System.currentTimeMillis()) + Math.abs(RANDOM.nextInt());
+    }
+
+    public static class ZipArchive {
+        public final String fileName;
+        public final byte[] content;
+
+        public ZipArchive(String fileName, byte[] content) {
+            this.fileName = fileName;
+            this.content = content;
+        }
     }
 }
