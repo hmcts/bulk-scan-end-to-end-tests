@@ -27,3 +27,7 @@ jobs:
         run: ./gradlew check
       - name: Run functional tests
         run: ./gradlew functional
+        env:
+          BLOB_ROUTER_URL: "http://reform-scan-blob-router-aat.service.core-compute-aat.internal"
+          PROCESSOR_URL: "http://bulk-scan-processor-aat.service.core-compute-aat.internal"
+          STORAGE_ACCOUNT_URL: "https://reformscan.aat.platform.hmcts.net"
