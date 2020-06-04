@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
 import com.google.common.io.Resources;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -67,7 +68,7 @@ public final class ZipFileHelper {
         var outputStream = new ByteArrayOutputStream();
         try (var zos = new ZipOutputStream(outputStream)) {
             for (String pdf : pdfFiles) {
-                zos.putNextEntry(new ZipEntry(pdf));
+                zos.putNextEntry(new ZipEntry(FilenameUtils.getName(pdf)));
                 zos.write(toByteArray(getResource(pdf)));
                 zos.closeEntry();
             }
