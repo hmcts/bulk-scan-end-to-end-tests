@@ -33,12 +33,20 @@ public final class ContainerJurisdictionPoBoxMapper {
 
         public final String poBox;
 
+        public final String formType;
+
         private ContainerMapping(
             String jurisdiction,
-            String poBox
+            String poBox,
+            String formType
         ) {
             this.jurisdiction = jurisdiction;
             this.poBox = poBox;
+            this.formType = formType;
+        }
+
+        private ContainerMapping(String jurisdiction, String poBox) {
+            this(jurisdiction, poBox, null);
         }
     }
 }
