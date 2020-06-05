@@ -1,0 +1,16 @@
+{
+  "Metadata_file": [
+    {
+      "metadata_field_name": "first_name",
+      "metadata_field_value": "John"
+    },
+    {
+      "metadata_field_name": "last_name",
+      "metadata_field_value": "Smith"
+    },
+    {
+      "metadata_field_name": "date_of_birth",
+      "metadata_field_value": "1985-03-20"
+    }
+  ]
+}
