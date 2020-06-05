@@ -24,7 +24,7 @@
   ],
   "payments": [
       {
-        "document_control_number": "1111002"
+        "document_control_number": "$$dcn1$$"
       }
   ]
 }
