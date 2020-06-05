@@ -40,7 +40,7 @@ public final class ZipFileHelper {
             LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
         );
 
-        String metadataContent = updateMetadataWithFileNameAndDcns(metadataFile, zipFileName);
+        String metadataContent = updateMetadata(metadataFile, zipFileName);
 
         byte[] zipContents = createZipArchiveWithDocumentsAndMetadata(pdfFiles, metadataContent);
 
@@ -82,8 +82,9 @@ public final class ZipFileHelper {
         return outputStream.toByteArray();
     }
 
-    public static String updateMetadataWithFileNameAndDcns(
-        String metadataFile, String zipFileName
+    private static String updateMetadata(
+        String metadataFile,
+        String zipFileName
     ) throws Exception {
         assertThat(metadataFile).isNotBlank();
 
