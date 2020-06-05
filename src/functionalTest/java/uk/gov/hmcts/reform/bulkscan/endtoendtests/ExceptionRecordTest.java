@@ -62,6 +62,25 @@ public class ExceptionRecordTest {
         assertCompletedProcessorResult(zipArchive.fileName);
     }
 
+
+    @Test
+    public void should_dispatch_blob_and_create_exception_record_for_new_application_classification()
+        throws Exception {
+
+        var zipArchive = ZipFileHelper.createZipArchive(
+            singletonList("test-data/new_application/1111002.pdf"),
+            "test-data/new_application/metadata.json"
+        );
+
+        StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
+
+        Await.envelopeDispatched(zipArchive.fileName);
+        Await.envelopeCompleted(zipArchive.fileName);
+
+        //get the process result again and assert
+        assertCompletedProcessorResult(zipArchive.fileName);
+    }
+
     private void assertCompletedProcessorResult(String zipFileName) {
         ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
         assertThat(processorEnvelopeResult.ccdId).isNotBlank();
