@@ -2,7 +2,13 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
 public enum Container {
 
-    BULKSCAN("bulkscan");
+    BULKSCAN("bulkscan"),
+    CMC("cmc"),
+    DIVORCE("divorce"),
+    FINREM("finrem"),
+    PROBATE("probate"),
+    PUBLICLAW("publiclaw"),
+    SSCS("sscs");
 
     public final String name;
 
