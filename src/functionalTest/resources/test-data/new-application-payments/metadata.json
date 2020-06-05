@@ -9,7 +9,7 @@
   "envelope_classification": "new_application",
   "scannable_items": [
       {
-        "document_control_number": "1111002",
+        "document_control_number": "$$dcn1$$",
         "scanning_date": "2018-06-23T00:00:00.000Z",
         "ocr_accuracy": "test",
         "manual_intervention": "test",
