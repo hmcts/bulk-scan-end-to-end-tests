@@ -26,7 +26,10 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence_with_ocr_classification()
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence_with_ocr", Container.BULKSCAN);
+        var zipArchive = ZipFileHelper.createZipArchive(
+            "test-data/supplementary_evidence_with_ocr",
+            Container.BULKSCAN
+        );
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
