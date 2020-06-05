@@ -72,7 +72,8 @@ public class ExceptionRecordTest {
 
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/new_application/1111002.pdf"),
-            "test-data/new_application/metadata.json"
+            "test-data/new_application/metadata.json",
+            Container.BULKSCAN
         );
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
