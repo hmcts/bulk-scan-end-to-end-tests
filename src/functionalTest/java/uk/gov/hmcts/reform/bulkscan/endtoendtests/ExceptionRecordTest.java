@@ -50,8 +50,8 @@ public class ExceptionRecordTest {
         throws Exception {
 
         var zipArchive = ZipFileHelper.createZipArchive(
-            singletonList("test-data/exception/1111002.pdf"),
-            "test-data/exception/supplementary_evidence_metadata.json"
+            singletonList("test-data/supplementary_evidence/1111002.pdf"),
+            "test-data/supplementary_evidence/metadata.json"
         );
 
         StorageHelper.uploadZipFile(CONTAINER_BULKSCAN, zipArchive);
