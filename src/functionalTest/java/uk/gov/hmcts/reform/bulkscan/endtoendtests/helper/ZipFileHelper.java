@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
 import com.google.common.io.Resources;
 import org.apache.commons.io.FilenameUtils;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoBoxMapper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,15 +48,22 @@ public final class ZipFileHelper {
 
     public static ZipArchive createZipArchive(
         List<String> pdfFiles,
-        String metadataFile
+        String metadataFile,
+        Container container
     ) throws Exception {
         String zipFileName = String.format(
             "%s_%s.test.zip",
             ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE),
             LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
         );
+        var containerMapping = ContainerJurisdictionPoBoxMapper.getMappedContainerData(container);
 
-        String metadataContent = updateMetadataWithFileNameAndDcns(metadataFile, zipFileName);
+        String metadataContent = updateMetadata(
+            metadataFile,
+            zipFileName,
+            containerMapping.jurisdiction,
+            containerMapping.poBox
+        );
 
         byte[] zipContents = createZipArchiveWithDocumentsAndMetadata(pdfFiles, metadataContent);
 
@@ -97,8 +105,11 @@ public final class ZipFileHelper {
         return outputStream.toByteArray();
     }
 
-    public static String updateMetadataWithFileNameAndDcns(
-        String metadataFile, String zipFileName
+    private static String updateMetadata(
+        String metadataFile,
+        String zipFileName,
+        String jurisdiction,
+        String poBox
     ) throws Exception {
         assertThat(metadataFile).isNotBlank();
 
@@ -107,7 +118,9 @@ public final class ZipFileHelper {
 
         return metadataTemplate
             .replace("$$zip_file_name$$", zipFileName)
-            .replace("$$dcn1$$", generateDcnNumber());
+            .replace("$$dcn1$$", generateDcnNumber())
+            .replace("$$jurisdiction$$", jurisdiction)
+            .replace("$$po_box$$", poBox);
     }
 
     private static String generateDcnNumber() {
