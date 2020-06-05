@@ -17,6 +17,7 @@ public class NewApplicationPaymentsTest {
             singletonList("test-data/new-application-payments/1111002.pdf"),
             "test-data/new-application-payments/metadata.json"
         );
+        System.out.println("NewApplicationPaymentsTest, file: " + zipArchive.fileName);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 

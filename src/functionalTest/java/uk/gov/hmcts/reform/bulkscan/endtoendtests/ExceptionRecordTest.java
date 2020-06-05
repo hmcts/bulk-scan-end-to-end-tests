@@ -19,6 +19,7 @@ public class ExceptionRecordTest {
             singletonList("test-data/exception/1111002.pdf"),
             "test-data/exception/metadata.json"
         );
+        System.out.println("Classification EXCEPTION, file: " + zipArchive.fileName);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
@@ -34,6 +35,7 @@ public class ExceptionRecordTest {
             singletonList("test-data/supplementary_evidence_with_ocr/1111002.pdf"),
             "test-data/supplementary_evidence_with_ocr/metadata.json"
         );
+        System.out.println("Classification SUPPLEMENTARY_EVIDENCE_WITH_OCR, file: " + zipArchive.fileName);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
@@ -52,6 +54,7 @@ public class ExceptionRecordTest {
             singletonList("test-data/supplementary_evidence/1111002.pdf"),
             "test-data/supplementary_evidence/metadata.json"
         );
+        System.out.println("Classification SUPPLEMENTARY_EVIDENCE, file: " + zipArchive.fileName);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
