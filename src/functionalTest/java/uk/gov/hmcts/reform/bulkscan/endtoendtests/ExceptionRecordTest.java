@@ -1,11 +1,12 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.model.Classification;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
 import static java.util.Collections.singletonList;
@@ -15,13 +16,8 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelope
 public class ExceptionRecordTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {
-        "exception",
-        "new_application",
-        "supplementary_evidence",
-        "supplementary_evidence_with_ocr"
-    })
-    public void should_dispatch_blob_and_create_exception_record_for_classification(String classification)
+    @EnumSource(Classification.class)
+    public void should_dispatch_blob_and_create_exception_record_for_classification(Classification classification)
         throws Exception {
 
         var zipArchive = ZipFileHelper.createZipArchive(
