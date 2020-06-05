@@ -7,7 +7,6 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
@@ -27,11 +26,7 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence_with_ocr_classification()
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive(
-            "Supplementary_evidence_with_ocr_classification_",
-            singletonList("test-data/supplementary_evidence_with_ocr/1111002.pdf"),
-            "test-data/supplementary_evidence_with_ocr/metadata.json"
-        );
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence_with_ocr");
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
@@ -46,11 +41,7 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence()
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive(
-            "Supplementary_evidence_classification_",
-            singletonList("test-data/exception/1111002.pdf"),
-            "test-data/exception/supplementary_evidence_metadata.json"
-        );
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence");
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
