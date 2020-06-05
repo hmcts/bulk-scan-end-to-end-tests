@@ -19,7 +19,7 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_classification(Classification classification)
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive("test-data/"+ classification, Container.BULKSCAN);
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/" + classification, Container.BULKSCAN);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
