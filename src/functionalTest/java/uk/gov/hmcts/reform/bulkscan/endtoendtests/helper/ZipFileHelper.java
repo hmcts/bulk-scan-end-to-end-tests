@@ -37,7 +37,7 @@ public final class ZipFileHelper {
     public static ZipArchive createZipArchive(String dirName, Container container) throws Exception {
         List<String> files =
             Stream.of(new File(getResource(dirName).getPath()).listFiles())
-                .map(File::getName)
+                .map(e -> dirName + "/" + e.getName())
                 .collect(toList());
 
         return createZipArchive(
