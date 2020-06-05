@@ -34,17 +34,8 @@ public final class ZipFileHelper {
         List<String> pdfFiles,
         String metadataFile
     ) throws Exception {
-        return createZipArchive("", pdfFiles, metadataFile);
-    }
-
-    public static ZipArchive createZipArchive(
-        String prefix,
-        List<String> pdfFiles,
-        String metadataFile
-    ) throws Exception {
-
         String zipFileName = String.format(
-            prefix + "%s_%s.test.zip",
+            "%s_%s.test.zip",
             ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE),
             LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
         );
