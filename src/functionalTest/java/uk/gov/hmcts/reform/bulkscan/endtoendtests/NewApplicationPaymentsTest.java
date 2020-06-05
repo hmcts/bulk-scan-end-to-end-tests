@@ -15,7 +15,7 @@ public class NewApplicationPaymentsTest {
     @Test
     public void should_upload_blob_and_create_exception_record() throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive("test-data/new-application-payments");
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/new-application-payments", Container.BULKSCAN);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 

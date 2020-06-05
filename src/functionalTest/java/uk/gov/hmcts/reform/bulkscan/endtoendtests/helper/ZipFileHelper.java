@@ -34,7 +34,7 @@ public final class ZipFileHelper {
         // utility class
     }
 
-    public static ZipArchive createZipArchive(String dirName) throws Exception {
+    public static ZipArchive createZipArchive(String dirName, Container container) throws Exception {
         List<String> files =
             Stream.of(new File(getResource(dirName).getPath()).listFiles())
                 .map(File::getName)
@@ -42,7 +42,8 @@ public final class ZipFileHelper {
 
         return createZipArchive(
             files.stream().filter(f -> f.endsWith(".pdf")).collect(toList()),
-            files.stream().filter(f -> f.endsWith(".json")).collect(toList()).get(0)
+            files.stream().filter(f -> f.endsWith(".json")).collect(toList()).get(0),
+            container
         );
     }
 

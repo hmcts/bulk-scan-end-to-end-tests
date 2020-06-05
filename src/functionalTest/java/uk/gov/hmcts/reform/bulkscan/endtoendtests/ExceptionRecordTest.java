@@ -14,7 +14,7 @@ public class ExceptionRecordTest {
 
     @Test
     public void should_upload_blob_and_create_exception_record() throws Exception {
-        var zipArchive = ZipFileHelper.createZipArchive("test-data/exception");
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/exception", Container.BULKSCAN);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
@@ -26,7 +26,7 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence_with_ocr_classification()
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence_with_ocr");
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence_with_ocr", Container.BULKSCAN);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
@@ -41,7 +41,7 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_supplementary_evidence()
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence");
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/supplementary_evidence", Container.BULKSCAN);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
@@ -57,11 +57,7 @@ public class ExceptionRecordTest {
     public void should_dispatch_blob_and_create_exception_record_for_new_application_classification()
         throws Exception {
 
-        var zipArchive = ZipFileHelper.createZipArchive(
-            singletonList("test-data/new_application/1111002.pdf"),
-            "test-data/new_application/metadata.json",
-            Container.BULKSCAN
-        );
+        var zipArchive = ZipFileHelper.createZipArchive("test-data/new_application", Container.BULKSCAN);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
 
