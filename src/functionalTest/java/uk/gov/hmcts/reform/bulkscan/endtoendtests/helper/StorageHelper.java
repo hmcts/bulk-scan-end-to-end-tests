@@ -26,7 +26,7 @@ public final class StorageHelper {
         String sasToken = SasTokenRetriever.getTokenFor(container.name);
 
         new BlobContainerClientBuilder()
-            .endpoint(storageUrl + "/" + container)
+            .endpoint(storageUrl + "/" + container.name)
             .sasToken(sasToken)
             .httpClient(new NettyAsyncHttpClientBuilder()
                             .proxy(new ProxyOptions(
