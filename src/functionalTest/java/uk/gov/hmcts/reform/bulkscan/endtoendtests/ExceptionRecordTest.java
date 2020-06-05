@@ -18,7 +18,7 @@ public class ExceptionRecordTest {
     public void should_upload_blob_and_create_exception_record() throws Exception {
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/exception/1111002.pdf"),
-            "test-data/exception/exception_metadata.json"
+            "test-data/exception/metadata.json"
         );
 
         StorageHelper.uploadZipFile(CONTAINER_BULKSCAN, zipArchive);
