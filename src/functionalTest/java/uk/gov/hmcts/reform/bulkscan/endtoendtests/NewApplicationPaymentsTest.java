@@ -15,7 +15,8 @@ public class NewApplicationPaymentsTest {
 
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/new-application-payments/1111002.pdf"),
-            "test-data/new-application-payments/metadata.json"
+            "test-data/new-application-payments/metadata.json",
+            Container.BULKSCAN
         );
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);

@@ -17,7 +17,8 @@ public class ExceptionRecordTest {
     public void should_upload_blob_and_create_exception_record() throws Exception {
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/exception/1111002.pdf"),
-            "test-data/exception/metadata.json"
+            "test-data/exception/metadata.json",
+            Container.BULKSCAN
         );
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
@@ -32,7 +33,8 @@ public class ExceptionRecordTest {
 
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/supplementary_evidence_with_ocr/1111002.pdf"),
-            "test-data/supplementary_evidence_with_ocr/metadata.json"
+            "test-data/supplementary_evidence_with_ocr/metadata.json",
+            Container.BULKSCAN
         );
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
@@ -50,7 +52,8 @@ public class ExceptionRecordTest {
 
         var zipArchive = ZipFileHelper.createZipArchive(
             singletonList("test-data/supplementary_evidence/1111002.pdf"),
-            "test-data/supplementary_evidence/metadata.json"
+            "test-data/supplementary_evidence/metadata.json",
+            Container.BULKSCAN
         );
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchive);
