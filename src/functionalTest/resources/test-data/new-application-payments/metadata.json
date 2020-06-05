@@ -1,7 +1,7 @@
 {
   "case_number": "",
-  "po_box": "BULKSCANPO",
-  "jurisdiction": "BULKSCAN",
+  "po_box": "$$po_box$$",
+  "jurisdiction": "$$jurisdiction$$",
   "delivery_date": "2018-06-23T00:00:00.000Z",
   "opening_date": "2018-06-24T00:00:00.000Z",
   "zip_file_createddate": "2018-02-24T00:00:00.000Z",
