@@ -18,7 +18,8 @@
       "ocr_data": "ewogICJNZXRhZGF0YV9maWxlIjogWwogICAgewogICAgICAibWV0YWRhdGFfZmllbGRfbmFtZSI6ICJmaXJzdF9uYW1lIiwKICAgICAgIm1ldGFkYXRhX2ZpZWxkX3ZhbHVlIjogIkpvaG4iCiAgICB9LAogICAgewogICAgICAibWV0YWRhdGFfZmllbGRfbmFtZSI6ICJsYXN0X25hbWUiLAogICAgICAibWV0YWRhdGFfZmllbGRfdmFsdWUiOiAiU21pdGgiCiAgICB9LAogICAgewogICAgICAibWV0YWRhdGFfZmllbGRfbmFtZSI6ICJkYXRlX29mX2JpcnRoIiwKICAgICAgIm1ldGFkYXRhX2ZpZWxkX3ZhbHVlIjogIjE5ODUtMDMtMjAiCiAgICB9CiAgXQp9Cg==",
       "file_name": "1111002.pdf",
       "notes": "test",
-      "document_type": "Form"
+      "document_type": "Form",
+      "document_sub_type": "PERSONAL"
     }
   ]
 }
