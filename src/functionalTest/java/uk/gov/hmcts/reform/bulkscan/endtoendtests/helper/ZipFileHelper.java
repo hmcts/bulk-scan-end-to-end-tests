@@ -6,17 +6,20 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoB
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.OcrDataEncoder;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static com.google.common.io.Resources.getResource;
 import static com.google.common.io.Resources.toByteArray;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public final class ZipFileHelper {
@@ -30,6 +33,19 @@ public final class ZipFileHelper {
 
     private ZipFileHelper() {
         // utility class
+    }
+
+    public static ZipArchive createZipArchive(String dirName, Container container) throws Exception {
+        List<String> files =
+            Stream.of(new File(getResource(dirName).getPath()).listFiles())
+                .map(e -> dirName + "/" + e.getName())
+                .collect(toList());
+
+        return createZipArchive(
+            files.stream().filter(f -> f.endsWith(".pdf")).collect(toList()),
+            files.stream().filter(f -> f.endsWith(".json")).collect(toList()).get(0),
+            container
+        );
     }
 
     public static ZipArchive createZipArchive(
