@@ -12,7 +12,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
-public class ExceptionRecordTest {
+public class BulkscanExceptionJourneyForAllClassificationTest {
 
     @ParameterizedTest
     @EnumSource(Classification.class)
