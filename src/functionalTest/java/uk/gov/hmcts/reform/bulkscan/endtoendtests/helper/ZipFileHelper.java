@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -24,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public final class ZipFileHelper {
 
-    private static final Random RANDOM = new Random();
     public static final String ENVELOPE_ZIPFILE_NAME = "envelope.zip";
     public static final String SIGNATURE_FILE_NAME = "signature";
 
@@ -141,6 +139,7 @@ public final class ZipFileHelper {
     private static String generateDcnNumber(int length) {
         return (Long.toString(System.nanoTime()) + System.nanoTime()).substring(0, length);
     }
+
     public static class ZipArchive {
         public final String fileName;
         public final byte[] content;
