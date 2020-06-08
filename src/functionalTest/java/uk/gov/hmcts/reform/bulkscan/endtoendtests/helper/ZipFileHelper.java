@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 import com.google.common.io.Resources;
 import org.apache.commons.io.FilenameUtils;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoBoxMapper;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.OcrDataEncoder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,12 +59,14 @@ public final class ZipFileHelper {
             LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
         );
         var containerMapping = ContainerJurisdictionPoBoxMapper.getMappedContainerData(container);
+        var ocrData = OcrDataEncoder.encodeDefaultOcrData(container);
 
         String metadataContent = updateMetadata(
             metadataFile,
             zipFileName,
             containerMapping.jurisdiction,
-            containerMapping.poBox
+            containerMapping.poBox,
+            ocrData
         );
 
         byte[] zipContents = createZipArchiveWithDocumentsAndMetadata(pdfFiles, metadataContent);
@@ -110,7 +113,8 @@ public final class ZipFileHelper {
         String metadataFile,
         String zipFileName,
         String jurisdiction,
-        String poBox
+        String poBox,
+        String ocrData
     ) throws Exception {
         assertThat(metadataFile).isNotBlank();
 
@@ -121,7 +125,8 @@ public final class ZipFileHelper {
             .replace("$$zip_file_name$$", zipFileName)
             .replace("$$dcn1$$", generateDcnNumber())
             .replace("$$jurisdiction$$", jurisdiction)
-            .replace("$$po_box$$", poBox);
+            .replace("$$po_box$$", poBox)
+            .replace("$$ocr_data$$", ocrData);
     }
 
     private static String generateDcnNumber() {
