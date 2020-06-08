@@ -124,6 +124,7 @@ public final class ZipFileHelper {
         return metadataTemplate
             .replace("$$zip_file_name$$", zipFileName)
             .replace("$$dcn1$$", generateDcnNumber())
+            .replace("$$payment_dcn$$", generatePaymentDcnNumber())
             .replace("$$jurisdiction$$", jurisdiction)
             .replace("$$po_box$$", poBox)
             .replace("$$ocr_data$$", ocrData);
@@ -131,6 +132,10 @@ public final class ZipFileHelper {
 
     private static String generateDcnNumber() {
         return Long.toString(System.currentTimeMillis()) + Math.abs(RANDOM.nextInt());
+    }
+
+    private static String generatePaymentDcnNumber() {
+        return (Long.toString(System.nanoTime()) + System.nanoTime()).substring(0, 21);
     }
 
     public static class ZipArchive {
