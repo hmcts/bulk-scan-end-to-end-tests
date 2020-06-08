@@ -5,7 +5,6 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
@@ -27,11 +26,12 @@ public class NewApplicationPaymentsTest {
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {
-        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
-        assertThat(processorEnvelopeResult.ccdId).isNotBlank();
-        assertThat(processorEnvelopeResult.container).isEqualTo(Container.BULKSCAN.name);
-        assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
-        assertThat(processorEnvelopeResult.id).isNotBlank();
-        assertThat(processorEnvelopeResult.status).isEqualTo("COMPLETED");
+        assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
+            assertThat(env.ccdId).isNotBlank();
+            assertThat(env.container).isEqualTo(Container.BULKSCAN.name);
+            assertThat(env.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
+            assertThat(env.id).isNotBlank();
+            assertThat(env.status).isEqualTo("COMPLETED");
+        });
     }
 }
