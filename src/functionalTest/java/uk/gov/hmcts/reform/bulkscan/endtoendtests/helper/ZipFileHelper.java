@@ -66,6 +66,7 @@ public final class ZipFileHelper {
             zipFileName,
             containerMapping.jurisdiction,
             containerMapping.poBox,
+            containerMapping.formType,
             ocrData
         );
 
@@ -114,6 +115,7 @@ public final class ZipFileHelper {
         String zipFileName,
         String jurisdiction,
         String poBox,
+        String formType,
         String ocrData
     ) throws Exception {
         assertThat(metadataFile).isNotBlank();
@@ -126,6 +128,7 @@ public final class ZipFileHelper {
             .replace("$$dcn1$$", generateDcnNumber())
             .replace("$$jurisdiction$$", jurisdiction)
             .replace("$$po_box$$", poBox)
+            .replace("$$form_type$$", formType)
             .replace("$$ocr_data$$", ocrData);
     }
 

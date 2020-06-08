@@ -9,13 +9,13 @@ public final class ContainerJurisdictionPoBoxMapper {
 
     private static final Map<Container, ContainerMapping> CONTAINER_MAPPINGS = ImmutableMap
         .<Container, ContainerMapping>builder()
-        .put(Container.BULKSCAN, new ContainerMapping(Container.BULKSCAN.name(), "BULKSCANPO"))
+        .put(Container.BULKSCAN, new ContainerMapping(Container.BULKSCAN.name(), "BULKSCANPO", "PERSONAL"))
         .put(Container.CMC, new ContainerMapping(Container.CMC.name(), "12747"))
-        .put(Container.DIVORCE, new ContainerMapping(Container.DIVORCE.name(), "12706"))
-        .put(Container.FINREM, new ContainerMapping(Container.DIVORCE.name(), "12746"))
-        .put(Container.PROBATE, new ContainerMapping(Container.PROBATE.name(), "12625"))
+        .put(Container.DIVORCE, new ContainerMapping(Container.DIVORCE.name(), "12706", "D8"))
+        .put(Container.FINREM, new ContainerMapping(Container.DIVORCE.name(), "12746", "FormA"))
+        .put(Container.PROBATE, new ContainerMapping(Container.PROBATE.name(), "12625", "PA8A"))
         .put(Container.PUBLICLAW, new ContainerMapping(Container.PUBLICLAW.name(), "12879"))
-        .put(Container.SSCS, new ContainerMapping(Container.SSCS.name(), "12626"))
+        .put(Container.SSCS, new ContainerMapping(Container.SSCS.name(), "12626", "SSCS1"))
         .build();
 
     private ContainerJurisdictionPoBoxMapper() {

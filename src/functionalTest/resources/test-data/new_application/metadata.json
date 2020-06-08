@@ -19,7 +19,7 @@
       "file_name": "1111002.pdf",
       "notes": "test",
       "document_type": "Form",
-      "document_sub_type": "PERSONAL"
+      "document_sub_type": "$$form_type$$"
     }
   ]
 }

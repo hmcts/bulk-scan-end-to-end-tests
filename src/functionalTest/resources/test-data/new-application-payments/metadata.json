@@ -18,7 +18,7 @@
         "ocr_data": "$$ocr_data$$",
         "file_name": "1111002.pdf",
         "notes": "test",
-        "document_sub_type": "PERSONAL",
+        "document_sub_type": "$$form_type$$",
         "document_type": "Form"
       }
   ],
