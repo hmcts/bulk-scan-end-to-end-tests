@@ -123,21 +123,24 @@ public final class ZipFileHelper {
 
         return metadataTemplate
             .replace("$$zip_file_name$$", zipFileName)
-            .replace("$$dcn1$$", generateDcnNumber())
+            .replace("$$dcn1$$", generateDocumentDcnNumber())
             .replace("$$payment_dcn$$", generatePaymentDcnNumber())
             .replace("$$jurisdiction$$", jurisdiction)
             .replace("$$po_box$$", poBox)
             .replace("$$ocr_data$$", ocrData);
     }
 
-    private static String generateDcnNumber() {
-        return Long.toString(System.currentTimeMillis()) + Math.abs(RANDOM.nextInt());
+    private static String generateDocumentDcnNumber() {
+        return generateDcnNumber(17);
     }
 
     private static String generatePaymentDcnNumber() {
-        return (Long.toString(System.nanoTime()) + System.nanoTime()).substring(0, 21);
+        return generateDcnNumber(21);
     }
 
+    private static String generateDcnNumber(int length) {
+        return (Long.toString(System.nanoTime()) + System.nanoTime()).substring(0, length);
+    }
     public static class ZipArchive {
         public final String fileName;
         public final byte[] content;
