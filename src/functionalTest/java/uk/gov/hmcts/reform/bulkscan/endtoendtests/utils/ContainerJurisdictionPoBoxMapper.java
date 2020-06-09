@@ -46,7 +46,9 @@ public final class ContainerJurisdictionPoBoxMapper {
         }
 
         private ContainerMapping(String jurisdiction, String poBox) {
-            this(jurisdiction, poBox, null);
+            // NONE for form type - otherwise tools complain why it's null.
+            // Should not be used anyway and we'll get failure if we do use it for on-boarded services
+            this(jurisdiction, poBox, "NONE");
         }
     }
 }
