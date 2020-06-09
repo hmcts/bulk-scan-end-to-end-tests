@@ -7,15 +7,15 @@ import java.util.Map;
 
 public final class ContainerJurisdictionPoBoxMapper {
 
-    private static final Map<Container, JurisdictionAndPoBox> CONTAINER_MAPPINGS = ImmutableMap
-        .<Container, JurisdictionAndPoBox>builder()
-        .put(Container.BULKSCAN, new JurisdictionAndPoBox(Container.BULKSCAN.name(), "BULKSCANPO"))
-        .put(Container.CMC, new JurisdictionAndPoBox(Container.CMC.name(), "12747"))
-        .put(Container.DIVORCE, new JurisdictionAndPoBox(Container.DIVORCE.name(), "12706"))
-        .put(Container.FINREM, new JurisdictionAndPoBox(Container.DIVORCE.name(), "12746"))
-        .put(Container.PROBATE, new JurisdictionAndPoBox(Container.PROBATE.name(), "12625"))
-        .put(Container.PUBLICLAW, new JurisdictionAndPoBox(Container.PUBLICLAW.name(), "12879"))
-        .put(Container.SSCS, new JurisdictionAndPoBox(Container.SSCS.name(), "12626"))
+    private static final Map<Container, ContainerMapping> CONTAINER_MAPPINGS = ImmutableMap
+        .<Container, ContainerMapping>builder()
+        .put(Container.BULKSCAN, new ContainerMapping(Container.BULKSCAN.name(), "BULKSCANPO", "PERSONAL"))
+        .put(Container.CMC, new ContainerMapping(Container.CMC.name(), "12747"))
+        .put(Container.DIVORCE, new ContainerMapping(Container.DIVORCE.name(), "12706", "D8"))
+        .put(Container.FINREM, new ContainerMapping(Container.DIVORCE.name(), "12746", "FormA"))
+        .put(Container.PROBATE, new ContainerMapping(Container.PROBATE.name(), "12625", "PA8A"))
+        .put(Container.PUBLICLAW, new ContainerMapping(Container.PUBLICLAW.name(), "12879"))
+        .put(Container.SSCS, new ContainerMapping(Container.SSCS.name(), "12626", "SSCS1"))
         .build();
 
     private ContainerJurisdictionPoBoxMapper() {
@@ -23,22 +23,30 @@ public final class ContainerJurisdictionPoBoxMapper {
     }
 
     // name is as is in case we need to include more mapped data
-    public static JurisdictionAndPoBox getMappedContainerData(Container container) {
+    public static ContainerMapping getMappedContainerData(Container container) {
         return CONTAINER_MAPPINGS.get(container);
     }
 
-    public static class JurisdictionAndPoBox {
+    public static class ContainerMapping {
 
         public final String jurisdiction;
 
         public final String poBox;
 
-        private JurisdictionAndPoBox(
+        public final String formType;
+
+        private ContainerMapping(
             String jurisdiction,
-            String poBox
+            String poBox,
+            String formType
         ) {
             this.jurisdiction = jurisdiction;
             this.poBox = poBox;
+            this.formType = formType;
+        }
+
+        private ContainerMapping(String jurisdiction, String poBox) {
+            this(jurisdiction, poBox, null);
         }
     }
 }
