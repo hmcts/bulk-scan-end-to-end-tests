@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -24,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public final class ZipFileHelper {
 
-    private static final Random RANDOM = new Random();
     public static final String ENVELOPE_ZIPFILE_NAME = "envelope.zip";
     public static final String SIGNATURE_FILE_NAME = "signature";
 
@@ -125,15 +123,24 @@ public final class ZipFileHelper {
 
         return metadataTemplate
             .replace("$$zip_file_name$$", zipFileName)
-            .replace("$$dcn1$$", generateDcnNumber())
+            .replace("$$dcn1$$", generateDocumentDcnNumber())
+            .replace("$$payment_dcn$$", generatePaymentDcnNumber())
             .replace("$$jurisdiction$$", jurisdiction)
             .replace("$$po_box$$", poBox)
             .replace("$$form_type$$", formType)
             .replace("$$ocr_data$$", ocrData);
     }
 
-    private static String generateDcnNumber() {
-        return Long.toString(System.currentTimeMillis()) + Math.abs(RANDOM.nextInt());
+    private static String generateDocumentDcnNumber() {
+        return generateDcnNumber(17);
+    }
+
+    private static String generatePaymentDcnNumber() {
+        return generateDcnNumber(21);
+    }
+
+    private static String generateDcnNumber(int length) {
+        return (Long.toString(System.nanoTime()) + System.nanoTime()).substring(0, length);
     }
 
     public static class ZipArchive {
