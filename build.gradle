@@ -154,9 +154,7 @@ dependencies {
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
   implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
   implementation group: 'commons-io', name: 'commons-io', version: '2.7'
-  implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.1'
-  implementation group: 'uk.gov.hmcts.reform', name: 'idam-client', version: '1.4-beta'
-  implementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.7.0'
+  implementation group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
 
   testImplementation libraries.junit5
 
