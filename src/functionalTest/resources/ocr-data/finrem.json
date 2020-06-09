@@ -1,0 +1,236 @@
+{
+  "Metadata_file": [
+    {
+      "metadata_field_name": "divorceCaseNumber",
+      "metadata_field_value": "DD12D12345"
+    },
+    {
+      "metadata_field_name": "HWFNumber",
+      "metadata_field_value": "123456"
+    },
+    {
+      "metadata_field_name": "ApplicantFullName",
+      "metadata_field_value": "Bulk Scan"
+    },
+    {
+      "metadata_field_name": "RespondentFullName",
+      "metadata_field_value": "Bulk Print"
+    },
+    {
+      "metadata_field_name": "ProvisionMadeFor",
+      "metadata_field_value": "in connection with HMCTS partnership proceedings"
+    },
+    {
+      "metadata_field_name": "divorceStageReached",
+      "metadata_field_value": "Decree Nisi"
+    },
+    {
+      "metadata_field_name": "ApplicantIntendsTo",
+      "metadata_field_value": "ApplyToCourtFor"
+    },
+    {
+      "metadata_field_name": "natureOfApplication",
+      "metadata_field_value": "Periodical Payment Order, Pension Attachment Order"
+    },
+    {
+      "metadata_field_name": "DischargePeriodicalPaymentSubstituteFor",
+      "metadata_field_value": "a lump sum order, a property adjustment order, a pension sharing order, a pension compensation sharing order"
+    },
+    {
+      "metadata_field_name": "ApplyingForConsentOrder",
+      "metadata_field_value": "Yes"
+    },
+    {
+      "metadata_field_name": "AddressofProperties",
+      "metadata_field_value": "102 Petty France"
+    },
+    {
+      "metadata_field_name": "MortgageDetails",
+      "metadata_field_value": "We split the mortgage for our house"
+    },
+    {
+      "metadata_field_name": "OrderForChildren",
+      "metadata_field_value": "there is a written agreement made before 20 March 2018 about maintenance for the benefit of children"
+    },
+    {
+      "metadata_field_name": "OrderForChildrenNoAgreement",
+      "metadata_field_value": "to meet expenses incurred by a child in being educated or training for work"
+    },
+    {
+      "metadata_field_name": "ChildSupportAgencyCalculationMade",
+      "metadata_field_value": "Yes"
+    },
+    {
+      "metadata_field_name": "ChildSupportAgencyCalculationReason",
+      "metadata_field_value": "Decided based on some random calculations we made"
+    },
+    {
+      "metadata_field_name": "NameOfChild1",
+      "metadata_field_value": "Sample App"
+    },
+    {
+      "metadata_field_name": "DateOfBirthChild1",
+      "metadata_field_value": "14/06/2019"
+    },
+    {
+      "metadata_field_name": "GenderChild1",
+      "metadata_field_value": "other"
+    },
+    {
+      "metadata_field_name": "RelationshipToApplicantChild1",
+      "metadata_field_value": "Father"
+    },
+    {
+      "metadata_field_name": "RelationshipToRespondentChild1",
+      "metadata_field_value": "Mother"
+    },
+    {
+      "metadata_field_name": "CountryOfResidenceChild1",
+      "metadata_field_value": "UK"
+    },
+    {
+      "metadata_field_name": "NameOfChild2",
+      "metadata_field_value": "E2E"
+    },
+    {
+      "metadata_field_name": "DateOfBirthChild2",
+      "metadata_field_value": "22/05/2020"
+    },
+    {
+      "metadata_field_name": "GenderChild2",
+      "metadata_field_value": "other"
+    },
+    {
+      "metadata_field_name": "RelationshipToApplicantChild2",
+      "metadata_field_value": "Mother"
+    },
+    {
+      "metadata_field_name": "RelationshipToRespondentChild2",
+      "metadata_field_value": "Father"
+    },
+    {
+      "metadata_field_name": "CountryOfResidenceChild2",
+      "metadata_field_value": "UK"
+    },
+    {
+      "metadata_field_name": "ApplicantRepresented",
+      "metadata_field_value": "I am not represented by a solicitor in these proceedings"
+    },
+    {
+      "metadata_field_name": "ApplicantSolicitorName",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "ApplicantSolicitorFirm",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "ApplicantAddressLine1",
+      "metadata_field_value": "102 Petty France"
+    },
+    {
+      "metadata_field_name": "ApplicantAddressLine2",
+      "metadata_field_value": ""
+    },
+    {
+      "metadata_field_name": "ApplicantAddressTown",
+      "metadata_field_value": "London"
+    },
+    {
+      "metadata_field_name": "ApplicantAddressCounty",
+      "metadata_field_value": "Greater London"
+    },
+    {
+      "metadata_field_name": "ApplicantAddressPostcode",
+      "metadata_field_value": "SW1H 9AJ"
+    },
+    {
+      "metadata_field_name": "ApplicantAddressCountry",
+      "metadata_field_value": "UK"
+    },
+    {
+      "metadata_field_name": "ApplicantPhone",
+      "metadata_field_value": "0700000000"
+    },
+    {
+      "metadata_field_name": "ApplicantSolicitorDXnumber",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "ApplicantSolicitorReference",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "ApplicantPBANumber",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "ApplicantSolicitorEmail",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "ApplicantEmail",
+      "metadata_field_value": "email@localhost"
+    },
+    {
+      "metadata_field_name": "RespondentSolicitorName",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "RespondentSolicitorFirm",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "RespondentAddressLine1",
+      "metadata_field_value": "102 Petty France"
+    },
+    {
+      "metadata_field_name": "RespondentAddressLine2",
+      "metadata_field_value": ""
+    },
+    {
+      "metadata_field_name": "RespondentAddressTown",
+      "metadata_field_value": "London"
+    },
+    {
+      "metadata_field_name": "RespondentAddressCounty",
+      "metadata_field_value": "Greater London"
+    },
+    {
+      "metadata_field_name": "RespondentAddressPostcode",
+      "metadata_field_value": "SW1H 9AJ"
+    },
+    {
+      "metadata_field_name": "RespondentAddressCountry",
+      "metadata_field_value": "UK"
+    },
+    {
+      "metadata_field_name": "AuthorisationName",
+      "metadata_field_value": "bulk"
+    },
+    {
+      "metadata_field_name": "AuthorisationFirm",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "AuthorisationSolicitorAddress",
+      "metadata_field_value": " "
+    },
+    {
+      "metadata_field_name": "AuthorisationSigned",
+      "metadata_field_value": "Yes"
+    },
+    {
+      "metadata_field_name": "AuthorisationSignedBy",
+      "metadata_field_value": "Applicant"
+    },
+    {
+      "metadata_field_name": "AuthorisationDate",
+      "metadata_field_value": "01/06/2020"
+    },
+    {
+      "metadata_field_name": "AuthorisationSolicitorPosition",
+      "metadata_field_value": " "
+    }
+  ]
+}

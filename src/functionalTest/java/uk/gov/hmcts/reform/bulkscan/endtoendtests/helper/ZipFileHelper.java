@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import org.apache.commons.io.FilenameUtils;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoBoxMapper;
@@ -121,14 +122,27 @@ public final class ZipFileHelper {
         String metadataTemplate =
             Resources.toString(getResource(metadataFile), StandardCharsets.UTF_8);
 
-        return metadataTemplate
-            .replace("$$zip_file_name$$", zipFileName)
-            .replace("$$dcn1$$", generateDocumentDcnNumber())
-            .replace("$$payment_dcn$$", generatePaymentDcnNumber())
-            .replace("$$jurisdiction$$", jurisdiction)
-            .replace("$$po_box$$", poBox)
-            .replace("$$form_type$$", formType)
-            .replace("$$ocr_data$$", ocrData);
+        var replacements = ImmutableMap
+            .<String, String>builder()
+            .put("$$zip_file_name$$", zipFileName)
+            .put("$$dcn1$$", generateDocumentDcnNumber())
+            .put("$$payment_dcn$$", generatePaymentDcnNumber())
+            .put("$$jurisdiction$$", jurisdiction)
+            .put("$$po_box$$", poBox)
+            .put("$$form_type$$", formType)
+            .put("$$ocr_data$$", ocrData)
+            .build();
+
+        return replacements
+            .entrySet()
+            .stream()
+            .reduce(
+                metadataTemplate,
+                (metadata, entry) -> entry.getValue() == null
+                    ? metadata
+                    : metadata.replace(entry.getKey(), entry.getValue()),
+                (metadata1, metadata2) -> metadata2 // return newly replaced string
+            );
     }
 
     private static String generateDocumentDcnNumber() {
