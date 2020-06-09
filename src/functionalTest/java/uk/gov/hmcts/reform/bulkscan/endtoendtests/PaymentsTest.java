@@ -19,7 +19,7 @@ import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
-public class NewApplicationPaymentsTest {
+public class PaymentsTest {
 
     private Config conf = ConfigFactory.load();
 
