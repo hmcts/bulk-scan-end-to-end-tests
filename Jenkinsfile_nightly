@@ -23,7 +23,9 @@ withNightlyPipeline(type, product, component) {
 
   loadVaultSecrets([
     'reform-scan-aat': [
-      secret('test-signing-key-der-base64', 'SIGNING_KEY_DER_BASE64'),
+      secret('test-signing-key-der-base64', 'SIGNING_KEY_DER_BASE64')
+    ],
+    'bulk-scan-aat': [
       secret('idam-users-bulkscan-username', 'IDAM_USERS_BULKSCAN_USERNAME'),
       secret('idam-users-bulkscan-password', 'IDAM_USERS_BULKSCAN_PASSWORD')
     ]
