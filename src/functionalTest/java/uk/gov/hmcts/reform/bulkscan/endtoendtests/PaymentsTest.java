@@ -1,11 +1,12 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.warrenstrange.googleauth.GoogleAuthenticator;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
@@ -13,21 +14,32 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.String.format;
+import static org.apache.http.HttpHeaders.CONTENT_TYPE;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
 public class PaymentsTest {
 
-    private Config conf = ConfigFactory.load();
 
     private static final String IDAM_API_URL = "https://idam-api.aat.platform.hmcts.net";
-    private static final String OPEN_ID_TOKEN_PATH = "/o/token";
-    private static final String REDIRECT_URI = "http://localhost/receiver";
-
+    private static final String S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal";
     private static final String CORE_CASE_DATA_API_URL = "http://ccd-data-store-api-aat.service.core-compute-aat.internal";
+    private static final String REDIRECT_URI = "http://localhost/receiver";
+    public static final String BEARER = "Bearer ";
+
+
+    private Config conf = ConfigFactory.load();
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void should_upload_blob_and_create_exception_record() throws Exception {
@@ -42,43 +54,86 @@ public class PaymentsTest {
         //get the process result again and assert
         assertCompletedProcessorResult(zipArchive.fileName);
 
-        String username = conf.getString("idam-users-bulkscan-username");
-        String password = conf.getString("idam-users-bulkscan-password");
-        String secret = conf.getString("idam-client-secret");
 
-        Response response = RestAssured
-            .given()
-            .relaxedHTTPSValidation()
-            .proxy("proxyout.reform.hmcts.net", 8080)
-            .baseUri(IDAM_API_URL)
-            .header(HttpHeaders.CONTENT_TYPE, APPLICATION_FORM_URLENCODED.getMimeType())
-            .formParam("grant_type", "password")
-            .formParam("redirect_uri", REDIRECT_URI)
-            .formParam("client_id", "bsp")
-            .formParam("client_secret", secret)
-            .formParam("scope", "openid")
-            .formParam("username", username)
-            .formParam("password", password)
-            .post(OPEN_ID_TOKEN_PATH);
-        ObjectMapper m = new ObjectMapper();
-        Map<?, ?> r = m.readValue(response.getBody().print(), Map.class);
-        String accessToken = (String)r.get("access_token");
-        String idToken = (String)r.get("id_token");
-        String refreshToken = (String)r.get("refresh_token");
+        String accessToken = getAccessToken();
+
+        String s2sToken = getS2SToken();
 
         String ccdId = retrieveCcdId(zipArchive.fileName);
 
+        Map<?, ?> caseData = getCaseData(accessToken, s2sToken, ccdId);
+
+        String awaitingPaymentDCNProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
+        String containsPayments = (String)caseData.get("containsPayments");
+        assertThat(containsPayments).isEqualTo("Yes");
+        assertThat(awaitingPaymentDCNProcessing).isEqualTo("No");
+    }
+
+    private String getAccessToken() throws com.fasterxml.jackson.core.JsonProcessingException {
+        String idamClientSecret = conf.getString("idam-client-secret");
+        String username = conf.getString("idam-users-bulkscan-username");
+        String password = conf.getString("idam-users-bulkscan-password");
+        Response idamResponse = RestAssured
+            .given()
+            .relaxedHTTPSValidation()
+            .baseUri(IDAM_API_URL)
+            .header(CONTENT_TYPE, APPLICATION_FORM_URLENCODED.getMimeType())
+            .formParam("grant_type", "password")
+            .formParam("redirect_uri", REDIRECT_URI)
+            .formParam("client_id", "bsp")
+            .formParam("client_secret", idamClientSecret)
+            .formParam("scope", "openid profile roles")
+            .formParam("username", username)
+            .formParam("password", password)
+            .post("/o/token");
+
+        assertThat(idamResponse.getStatusCode()).isEqualTo(SC_OK);
+
+        Map<?, ?> r = objectMapper.readValue(idamResponse.getBody().print(), Map.class);
+        return (String)r.get("access_token");
+    }
+
+    private String getS2SToken() throws IOException {
+        String s2sSecret = conf.getString("s2s-secret");
+        final String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(s2sSecret));
+        Map<String, String> signInDetails = new HashMap<>();
+        signInDetails.put("microservice", "bulk_scan_orchestrator");
+        signInDetails.put("oneTimePassword", oneTimePassword);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        objectMapper.writeValue(baos, signInDetails);
+        String signInDetailsStr = baos.toString();
+
+        Response s2sResponse = RestAssured
+            .given()
+            .relaxedHTTPSValidation()
+            .baseUri(S2S_URL)
+            .header(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
+            .body(signInDetailsStr)
+            .post("/lease");
+
+        assertThat(s2sResponse.getStatusCode()).isEqualTo(SC_OK);
+
+        return s2sResponse.getBody().print();
+    }
+
+    private Map<?, ?> getCaseData(
+        String accessToken,
+        String s2sToken,
+        String ccdId
+    ) throws JsonProcessingException {
         Response caseResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .proxy("proxyout.reform.hmcts.net", 8080)
             .baseUri(CORE_CASE_DATA_API_URL)
             .header("experimental", true)
-            .header("Authorization", idToken)
-            .header("ServiceAuthorization", accessToken)
+            .header("Authorization", BEARER + accessToken)
+            .header("ServiceAuthorization", BEARER + s2sToken)
             .get("/cases/" + ccdId);
 
-        assertThat(caseResponse.getStatusCode()).isEqualTo(200);
+        assertThat(caseResponse.getStatusCode()).isEqualTo(SC_OK);
+
+        Map<?, ?> c = objectMapper.readValue(caseResponse.getBody().print(), Map.class);
+        return (Map<?, ?>) c.get("data");
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {
