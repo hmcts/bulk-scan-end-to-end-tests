@@ -21,7 +21,7 @@ public final class Await {
         await("File " + zipFileName + " should be completed in processor")
             .atMost(100, SECONDS)
             .pollInterval(1, SECONDS)
-            .until(() -> getZipFileStatus(zipFileName).filter(s -> s.status == "COMPLETED").isPresent());
+            .until(() -> getZipFileStatus(zipFileName).filter(s -> s.status.equals("COMPLETED")).isPresent());
     }
 
     private Await() {
