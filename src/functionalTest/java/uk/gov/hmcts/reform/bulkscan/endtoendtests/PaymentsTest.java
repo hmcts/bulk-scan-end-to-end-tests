@@ -51,7 +51,7 @@ public class PaymentsTest {
         //get the process result again and assert
         String ccdId = assertCompletedProcessorResultAndRetrieveCcdId(zipArchive.fileName);
 
-        String accessToken = getAccessToken();
+        String accessToken = getIdamToken();
 
         String s2sToken = getS2SToken();
 
