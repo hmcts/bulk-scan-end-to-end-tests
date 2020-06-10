@@ -49,14 +49,11 @@ public class PaymentsTest {
         Await.envelopeCompleted(zipArchive.fileName);
 
         //get the process result again and assert
-        assertCompletedProcessorResult(zipArchive.fileName);
-
+        String ccdId = assertCompletedProcessorResultAndRetrieveCcdId(zipArchive.fileName);
 
         String accessToken = getAccessToken();
 
         String s2sToken = getS2SToken();
-
-        String ccdId = retrieveCcdId(zipArchive.fileName);
 
         Map<?, ?> caseData = getCaseData(accessToken, s2sToken, ccdId);
 
@@ -136,17 +133,15 @@ public class PaymentsTest {
         return (Map<?, ?>) c.get("data");
     }
 
-    private void assertCompletedProcessorResult(String zipFileName) {
-        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
-        assertThat(processorEnvelopeResult.ccdId).isNotBlank();
-        assertThat(processorEnvelopeResult.container).isEqualTo(Container.BULKSCAN.name);
-        assertThat(processorEnvelopeResult.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
-        assertThat(processorEnvelopeResult.id).isNotBlank();
-        assertThat(processorEnvelopeResult.status).isEqualTo("COMPLETED");
-    }
-
-    private String retrieveCcdId(String zipFileName) {
-        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName);
+    private String assertCompletedProcessorResultAndRetrieveCcdId(String zipFileName) {
+        assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
+            assertThat(env.ccdId).isNotBlank();
+            assertThat(env.container).isEqualTo(Container.BULKSCAN.name);
+            assertThat(env.envelopeCcdAction).isEqualTo("EXCEPTION_RECORD");
+            assertThat(env.id).isNotBlank();
+            assertThat(env.status).isEqualTo("COMPLETED");
+        });
+        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName).get();
         return processorEnvelopeResult.ccdId;
     }
 }
