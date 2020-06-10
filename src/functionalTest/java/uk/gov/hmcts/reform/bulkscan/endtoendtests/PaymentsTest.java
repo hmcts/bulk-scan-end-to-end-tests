@@ -30,9 +30,6 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelope
 public class PaymentsTest {
 
 
-    private static final String IDAM_API_URL = "https://idam-api.aat.platform.hmcts.net";
-    private static final String S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal";
-    private static final String CORE_CASE_DATA_API_URL = "http://ccd-data-store-api-aat.service.core-compute-aat.internal";
     private static final String REDIRECT_URI = "http://localhost/receiver";
     public static final String BEARER = "Bearer ";
 
@@ -70,13 +67,14 @@ public class PaymentsTest {
     }
 
     private String getAccessToken() throws com.fasterxml.jackson.core.JsonProcessingException {
+        String idamApiUrl = conf.getString("idam-api-url");
         String idamClientSecret = conf.getString("idam-client-secret");
         String username = conf.getString("idam-users-bulkscan-username");
         String password = conf.getString("idam-users-bulkscan-password");
         Response idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(IDAM_API_URL)
+            .baseUri(idamApiUrl)
             .header(CONTENT_TYPE, APPLICATION_FORM_URLENCODED.getMimeType())
             .formParam("grant_type", "password")
             .formParam("redirect_uri", REDIRECT_URI)
@@ -94,6 +92,7 @@ public class PaymentsTest {
     }
 
     private String getS2SToken() throws IOException {
+        String s2sUrl = conf.getString("s2s-url");
         String s2sSecret = conf.getString("s2s-secret");
         final String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(s2sSecret));
         Map<String, String> signInDetails = new HashMap<>();
@@ -106,7 +105,7 @@ public class PaymentsTest {
         Response s2sResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(S2S_URL)
+            .baseUri(s2sUrl)
             .header(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
             .body(signInDetailsStr)
             .post("/lease");
@@ -121,10 +120,11 @@ public class PaymentsTest {
         String s2sToken,
         String ccdId
     ) throws JsonProcessingException {
+        String coreCaseDataApiUrl = conf.getString("core-case-data-api-url");
         Response caseResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(CORE_CASE_DATA_API_URL)
+            .baseUri(coreCaseDataApiUrl)
             .header("experimental", true)
             .header("Authorization", BEARER + accessToken)
             .header("ServiceAuthorization", BEARER + s2sToken)
