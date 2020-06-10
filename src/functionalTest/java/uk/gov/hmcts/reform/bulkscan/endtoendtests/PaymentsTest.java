@@ -63,7 +63,7 @@ public class PaymentsTest {
         assertThat(awaitingPaymentDCNProcessing).isEqualTo("No");
     }
 
-    private String getAccessToken() throws com.fasterxml.jackson.core.JsonProcessingException {
+    private String getIdamToken() throws com.fasterxml.jackson.core.JsonProcessingException {
         String idamApiUrl = conf.getString("idam-api-url");
         String idamClientSecret = conf.getString("idam-client-secret");
         String username = conf.getString("idam-users-bulkscan-username");
@@ -141,6 +141,7 @@ public class PaymentsTest {
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
         });
+
         ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName).get();
         return processorEnvelopeResult.ccdId;
     }
