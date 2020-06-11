@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
@@ -29,17 +30,14 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelope
 
 public class PaymentsTest {
 
-
-    private static final String REDIRECT_URI = "http://localhost/receiver";
-    public static final String BEARER = "Bearer ";
-
+    private static final String BEARER = "Bearer ";
 
     private Config conf = ConfigFactory.load();
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void should_upload_blob_and_create_exception_record() throws Exception {
+    public void should_create_exception_record_with_payments_when_envelope_contains_payments() throws Exception {
 
         var zipArchive = ZipFileHelper.createZipArchive("test-data/new-application-payments", Container.BULKSCAN);
 
@@ -49,7 +47,8 @@ public class PaymentsTest {
         Await.envelopeCompleted(zipArchive.fileName);
 
         //get the process result again and assert
-        String ccdId = assertCompletedProcessorResultAndRetrieveCcdId(zipArchive.fileName);
+        assertCompletedProcessorResult(zipArchive.fileName);
+        String ccdId = retrieveCcdId(zipArchive.fileName);
 
         String accessToken = getIdamToken();
 
@@ -65,6 +64,7 @@ public class PaymentsTest {
 
     private String getIdamToken() throws com.fasterxml.jackson.core.JsonProcessingException {
         String idamApiUrl = conf.getString("idam-api-url");
+        String idamClientRedirectUri = conf.getString("idam-client-redirect-uri");
         String idamClientSecret = conf.getString("idam-client-secret");
         String username = conf.getString("idam-users-bulkscan-username");
         String password = conf.getString("idam-users-bulkscan-password");
@@ -74,7 +74,7 @@ public class PaymentsTest {
             .baseUri(idamApiUrl)
             .header(CONTENT_TYPE, APPLICATION_FORM_URLENCODED.getMimeType())
             .formParam("grant_type", "password")
-            .formParam("redirect_uri", REDIRECT_URI)
+            .formParam("redirect_uri", idamClientRedirectUri)
             .formParam("client_id", "bsp")
             .formParam("client_secret", idamClientSecret)
             .formParam("scope", "openid profile roles")
@@ -133,7 +133,7 @@ public class PaymentsTest {
         return (Map<?, ?>) c.get("data");
     }
 
-    private String assertCompletedProcessorResultAndRetrieveCcdId(String zipFileName) {
+    private void assertCompletedProcessorResult(String zipFileName) {
         assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
             assertThat(env.ccdId).isNotBlank();
             assertThat(env.container).isEqualTo(Container.BULKSCAN.name);
@@ -141,8 +141,13 @@ public class PaymentsTest {
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
         });
+    }
 
-        ProcessorEnvelopeResult processorEnvelopeResult = getZipFileStatus(zipFileName).get();
-        return processorEnvelopeResult.ccdId;
+    private String retrieveCcdId(String zipFileName) {
+        Optional<ProcessorEnvelopeResult> processorEnvelopeResult = getZipFileStatus(zipFileName);
+
+        assertThat(processorEnvelopeResult.isPresent()).isTrue();
+
+        return processorEnvelopeResult.get().ccdId;
     }
 }
