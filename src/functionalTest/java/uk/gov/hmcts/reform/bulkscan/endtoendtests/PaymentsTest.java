@@ -44,10 +44,10 @@ public class PaymentsTest {
             ccdId
         );
 
-        String awaitingPaymentDCNProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
+        String awaitingPaymentDcnProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
         String containsPayments = (String)caseData.get("containsPayments");
         assertThat(containsPayments).isEqualTo("Yes");
-        assertThat(awaitingPaymentDCNProcessing).isEqualTo("No");
+        assertThat(awaitingPaymentDcnProcessing).isEqualTo("No");
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {

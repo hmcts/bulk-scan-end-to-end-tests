@@ -25,7 +25,6 @@ public class S2SClient {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public String getS2SToken() throws IOException {
-        String s2sUrl = conf.getString("s2s-url");
         String s2sSecret = conf.getString("s2s-secret");
         final String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(s2sSecret));
         Map<String, String> signInDetails = new HashMap<>();
@@ -35,6 +34,7 @@ public class S2SClient {
         objectMapper.writeValue(baos, signInDetails);
         String signInDetailsStr = baos.toString();
 
+        String s2sUrl = conf.getString("s2s-url");
         Response s2sResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
