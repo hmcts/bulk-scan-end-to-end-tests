@@ -38,11 +38,11 @@ public class PaymentsTest {
         assertCompletedProcessorResult(zipArchive.fileName);
         String ccdId = retrieveCcdId(zipArchive.fileName);
 
-        String accessToken = idamClient.getIdamToken();
-
-        String s2sToken = s2SClient.getS2SToken();
-
-        Map<?, ?> caseData = ccdClient.getCaseData(accessToken, s2sToken, ccdId);
+        Map<?, ?> caseData = ccdClient.getCaseData(
+            idamClient.getIdamToken(),
+            s2SClient.getS2SToken(),
+            ccdId
+        );
 
         String awaitingPaymentDCNProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
         String containsPayments = (String)caseData.get("containsPayments");
