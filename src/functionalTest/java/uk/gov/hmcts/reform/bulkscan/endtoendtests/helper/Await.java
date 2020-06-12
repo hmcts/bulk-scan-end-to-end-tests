@@ -1,7 +1,9 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.RouterEnvelopesStatusChecker;
 
+import java.util.Map;
 import java.util.Objects;
 
 import static com.jayway.awaitility.Awaitility.await;
@@ -9,6 +11,31 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
 public final class Await {
+
+    public static void paymentsProcessed(
+        CcdClient ccdClient,
+        String idamToken,
+        String s2sToken,
+        String ccdId
+    ) {
+        await("Payments for ccdId " + ccdId + " should be processed")
+            .atMost(60, SECONDS)
+            .pollInterval(1, SECONDS)
+            .until(
+                () -> {
+                    Map<?, ?> caseData = ccdClient.getCaseData(
+                        idamToken,
+                        s2sToken,
+                        ccdId
+                    );
+
+                    String awaitingPaymentDcnProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
+                    String containsPayments = (String)caseData.get("containsPayments");
+
+                    return containsPayments.equals("Yes") && awaitingPaymentDcnProcessing.equals("No");
+                }
+            );
+    }
 
     public static void envelopeDispatched(String zipFileName) {
         await("File " + zipFileName + " should be dispatched from router")

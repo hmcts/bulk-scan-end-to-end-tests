@@ -10,7 +10,6 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
-import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,18 +35,13 @@ public class PaymentsTest {
 
         //get the process result again and assert
         assertCompletedProcessorResult(zipArchive.fileName);
-        String ccdId = retrieveCcdId(zipArchive.fileName);
 
-        Map<?, ?> caseData = ccdClient.getCaseData(
-            idamClient.getIdamToken(),
-            s2SClient.getS2SToken(),
-            ccdId
-        );
+        final String ccdId = retrieveCcdId(zipArchive.fileName);
 
-        String awaitingPaymentDcnProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
-        String containsPayments = (String)caseData.get("containsPayments");
-        assertThat(containsPayments).isEqualTo("Yes");
-        assertThat(awaitingPaymentDcnProcessing).isEqualTo("No");
+        final String idamToken = idamClient.getIdamToken();
+        final String s2sToken = s2SClient.getS2SToken();
+
+        Await.paymentsProcessed(ccdClient, idamToken, s2sToken, ccdId);
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {
