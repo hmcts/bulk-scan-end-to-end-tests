@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.helper;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import org.apache.commons.io.FilenameUtils;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoBoxMapper;
@@ -11,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public final class ZipFileHelper {
 
-    private static final Random RANDOM = new Random();
     public static final String ENVELOPE_ZIPFILE_NAME = "envelope.zip";
     public static final String SIGNATURE_FILE_NAME = "signature";
 
@@ -66,6 +65,7 @@ public final class ZipFileHelper {
             zipFileName,
             containerMapping.jurisdiction,
             containerMapping.poBox,
+            containerMapping.formType,
             ocrData
         );
 
@@ -114,6 +114,7 @@ public final class ZipFileHelper {
         String zipFileName,
         String jurisdiction,
         String poBox,
+        String formType,
         String ocrData
     ) throws Exception {
         assertThat(metadataFile).isNotBlank();
@@ -121,16 +122,39 @@ public final class ZipFileHelper {
         String metadataTemplate =
             Resources.toString(getResource(metadataFile), StandardCharsets.UTF_8);
 
-        return metadataTemplate
-            .replace("$$zip_file_name$$", zipFileName)
-            .replace("$$dcn1$$", generateDcnNumber())
-            .replace("$$jurisdiction$$", jurisdiction)
-            .replace("$$po_box$$", poBox)
-            .replace("$$ocr_data$$", ocrData);
+        var replacements = ImmutableMap
+            .<String, String>builder()
+            .put("$$zip_file_name$$", zipFileName)
+            .put("$$dcn1$$", generateDocumentDcnNumber())
+            .put("$$payment_dcn$$", generatePaymentDcnNumber())
+            .put("$$jurisdiction$$", jurisdiction)
+            .put("$$po_box$$", poBox)
+            .put("$$form_type$$", formType)
+            .put("$$ocr_data$$", ocrData)
+            .build();
+
+        return replacements
+            .entrySet()
+            .stream()
+            .reduce(
+                metadataTemplate,
+                (metadata, entry) -> entry.getValue() == null
+                    ? metadata
+                    : metadata.replace(entry.getKey(), entry.getValue()),
+                (metadata1, metadata2) -> metadata2 // return newly replaced string
+            );
     }
 
-    private static String generateDcnNumber() {
-        return Long.toString(System.currentTimeMillis()) + Math.abs(RANDOM.nextInt());
+    private static String generateDocumentDcnNumber() {
+        return generateDcnNumber(17);
+    }
+
+    private static String generatePaymentDcnNumber() {
+        return generateDcnNumber(21);
+    }
+
+    private static String generateDcnNumber(int length) {
+        return (Long.toString(System.nanoTime()) + System.nanoTime()).substring(0, length);
     }
 
     public static class ZipArchive {
