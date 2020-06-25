@@ -33,6 +33,14 @@ withNightlyPipeline(type, product, component) {
     ]
   ])
 
+  env.BLOB_ROUTER_URL = 'http://reform-scan-blob-router-aat.service.core-compute-aat.internal'
+  env.PROCESSOR_URL = 'http://bulk-scan-processor-aat.service.core-compute-aat.internal'
+  env.STORAGE_ACCOUNT_URL = 'https://reformscan.aat.platform.hmcts.net'
+  env.IDAM_API_URL = 'https://idam-api.aat.platform.hmcts.net'
+  env.IDAM_CLIENT_REDIRECT_URI = 'https://bulk-scan-orchestrator-aat.service.core-compute-aat.internal/oauth2/callback'
+  env.S2S_URL = 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal'
+  env.CORE_CASE_DATA_API_URL = 'http://ccd-data-store-api-aat.service.core-compute-aat.internal'
+
   enableFullFunctionalTest()
 
   after('fullFunctionalTest') {
