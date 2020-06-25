@@ -19,7 +19,7 @@ public final class Await {
         String ccdId
     ) {
         await("Payments for ccdId " + ccdId + " should be processed")
-            .atMost(60, SECONDS)
+            .atMost(160, SECONDS)
             .pollInterval(1, SECONDS)
             .until(
                 () -> {
@@ -46,7 +46,7 @@ public final class Await {
 
     public static void envelopeCompleted(String zipFileName) {
         await("File " + zipFileName + " should be completed in processor")
-            .atMost(100, SECONDS)
+            .atMost(160, SECONDS)
             .pollInterval(1, SECONDS)
             .until(() -> getZipFileStatus(zipFileName).filter(s -> s.status.equals("COMPLETED")).isPresent());
     }
