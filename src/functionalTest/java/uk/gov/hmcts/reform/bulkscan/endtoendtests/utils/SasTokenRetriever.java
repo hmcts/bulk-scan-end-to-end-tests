@@ -19,6 +19,7 @@ public final class SasTokenRetriever {
             .header(HttpHeaders.CONTENT_TYPE, "application/json")
             .get("/token/" + jurisdiction)
             .then()
+            .log().body() // debug
             .statusCode(200)
             .extract()
             .body()
