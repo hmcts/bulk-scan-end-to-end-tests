@@ -40,6 +40,7 @@ public final class StorageHelper {
             .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
             .buildClient()
             .getBlobClient(zipArchive.fileName)
+            .getBlockBlobClient()
             .upload(new ByteArrayInputStream(zipArchive.content), zipArchive.content.length);
     }
 }
