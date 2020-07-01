@@ -37,15 +37,6 @@ public final class StorageHelper {
                                    )
                             )
                             .build())
-            // each policy is executed before sending out the request
-            .addPolicy(((context, next) -> {
-                context
-                    .getHttpRequest()
-                    .getHeaders()
-                    .put("Content-Type", "application/zip");
-
-                return next.process();
-            }))
             .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
             .buildClient()
             .getBlobClient(zipArchive.fileName)
