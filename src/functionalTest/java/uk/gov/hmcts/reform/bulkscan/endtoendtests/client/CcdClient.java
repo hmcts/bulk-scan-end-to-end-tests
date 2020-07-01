@@ -1,43 +1,44 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import org.springframework.http.HttpStatus;
+import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 
 import java.util.Map;
-
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CcdClient {
 
     private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
-    private Config conf = ConfigFactory.load();
+    private static Config conf = ConfigFactory.load();
+    private static String coreCaseDataApiUrl = conf.getString("core-case-data-api-url");
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    public Map<?, ?> getCaseData(
+    public Map<String, Object> getCaseData(
         String accessToken,
         String s2sToken,
         String ccdId
-    ) throws JsonProcessingException {
-        String coreCaseDataApiUrl = conf.getString("core-case-data-api-url");
-        Response caseResponse = RestAssured
+    ) {
+        CaseDetails caseResponse = getRequestSpecification(accessToken, s2sToken)
+            .get("/cases/" + ccdId)
+            .then()
+            .assertThat()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .as(CaseDetails.class);
+
+        return caseResponse.getData();
+    }
+
+    private RequestSpecification getRequestSpecification(String accessToken, String s2sToken) {
+        return RestAssured
             .given()
             .relaxedHTTPSValidation()
             .baseUri(coreCaseDataApiUrl)
             .header("experimental", true)
             .header("Authorization", BEARER_TOKEN_PREFIX + accessToken)
-            .header("ServiceAuthorization", BEARER_TOKEN_PREFIX + s2sToken)
-            .get("/cases/" + ccdId);
-
-        assertThat(caseResponse.getStatusCode()).isEqualTo(SC_OK);
-
-        Map<?, ?> c = objectMapper.readValue(caseResponse.getBody().print(), Map.class);
-        return (Map<?, ?>) c.get("data");
+            .header("ServiceAuthorization", BEARER_TOKEN_PREFIX + s2sToken);
     }
 }

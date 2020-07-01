@@ -23,7 +23,7 @@ public final class Await {
             .pollInterval(1, SECONDS)
             .until(
                 () -> {
-                    Map<?, ?> caseData = ccdClient.getCaseData(
+                    Map<String, Object> caseData = ccdClient.getCaseData(
                         idamToken,
                         s2sToken,
                         ccdId
