@@ -8,4 +8,10 @@
     <cve>CVE-2016-6798</cve>
   </suppress>
 
+  <suppress until="2020-10-31">
+    <notes><![CDATA[file name: spring-security-crypto-5.2.5.RELEASE.jar]]></notes>
+    <sha1>2dbe0de91ce99a8c6540291c25725b09154b5e11</sha1>
+    <cve>CVE-2018-1258</cve>
+  </suppress>
+
 </suppressions>
