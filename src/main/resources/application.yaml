@@ -1,0 +1,4 @@
+management:
+  health:
+   binders:
+    enabled: false
