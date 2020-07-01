@@ -22,7 +22,8 @@ public class CcdClient {
         String ccdId
     ) {
         CaseDetails caseResponse = getRequestSpecification(accessToken, s2sToken)
-            .get("/cases/" + ccdId)
+            .pathParam("ccdId", ccdId)
+            .get("/cases/{ccdId}")
             .then()
             .assertThat()
             .statusCode(HttpStatus.OK.value())
