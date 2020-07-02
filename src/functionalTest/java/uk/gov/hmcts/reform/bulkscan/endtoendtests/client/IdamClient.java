@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.springframework.http.HttpHeaders;
