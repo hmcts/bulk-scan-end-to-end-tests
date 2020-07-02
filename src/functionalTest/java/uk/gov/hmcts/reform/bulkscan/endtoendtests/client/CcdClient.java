@@ -13,6 +13,8 @@ import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.CCD_API_URL;
 
 public class CcdClient {
@@ -95,6 +97,7 @@ public class CcdClient {
         String eventId
     ) {
         return getRequestSpecification(idamToken, s2sToken)
+            .header(CONTENT_TYPE,   APPLICATION_JSON_VALUE)
             .pathParam("userId", userId)
             .pathParam("jurisdictionId", jurisdictionId)
             .pathParam("caseType", caseType)
