@@ -43,7 +43,6 @@ public class CcdClient {
         String idamToken,
         String s2sToken,
         String userId,
-        String ccdId,
         Container container
     ) {
 
