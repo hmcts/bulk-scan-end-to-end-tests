@@ -83,6 +83,7 @@ public class CcdClient {
             userId,
             containerMapping.jurisdiction,
             caseTypeId,
+            caseId,
             newCaseDataContent
         );
     }
@@ -123,18 +124,21 @@ public class CcdClient {
         String userId,
         String jurisdictionId,
         String caseType,
+        String caseId,
         CaseDataContent caseDataContent
     ) {
         return getRequestSpecification(idamToken, s2sToken)
             .pathParam("userId", userId)
             .pathParam("jurisdictionId", jurisdictionId)
             .pathParam("caseType", caseType)
+            .pathParam("caseId", caseId)
             .body(caseDataContent)
             .post(
                 "/caseworkers/{userId}"
                     + "/jurisdictions/{jurisdictionId}"
                     + "/case-types/{caseType}"
-                    + "/cases?ignoreWarning=true"
+                    + "/cases/{cid}"
+                    + "/events?ignoreWarning=true"
             )
             .then()
             .assertThat()
