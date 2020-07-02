@@ -128,6 +128,7 @@ public class CcdClient {
         CaseDataContent caseDataContent
     ) {
         return getRequestSpecification(idamToken, s2sToken)
+            .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .pathParam("userId", userId)
             .pathParam("jurisdictionId", jurisdictionId)
             .pathParam("caseType", caseType)
