@@ -42,6 +42,11 @@ public class PaymentsTest {
         final String s2sToken = s2SClient.getS2SToken();
 
         Await.paymentsProcessed(ccdClient, idamToken, s2sToken, ccdId);
+
+        final String userId = idamClient.getUserId(idamToken);
+
+        System.out.println("userId " + userId);
+        ccdClient.startRejectEventAndSubmit(idamToken, s2sToken, userId, ccdId, Container.BULKSCAN);
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {
