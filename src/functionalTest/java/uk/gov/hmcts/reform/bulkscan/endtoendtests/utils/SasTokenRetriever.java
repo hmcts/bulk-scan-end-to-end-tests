@@ -1,10 +1,10 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.utils;
 
-import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.BLOB_ROUTER_URL;
-
 import io.restassured.RestAssured;
 import org.apache.http.HttpHeaders;
 import uk.gov.hmcts.reform.logging.appinsights.SyntheticHeaders;
+
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.BLOB_ROUTER_URL;
 
 public final class SasTokenRetriever {
 

@@ -28,4 +28,6 @@ public class TestConfig {
 
     public static final String PROCESSOR_URL = conf.getString("processor-url");
 
+    private TestConfig() {
+    }
 }
