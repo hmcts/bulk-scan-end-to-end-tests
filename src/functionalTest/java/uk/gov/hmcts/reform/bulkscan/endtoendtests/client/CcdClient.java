@@ -137,7 +137,7 @@ public class CcdClient {
                 "/caseworkers/{userId}"
                     + "/jurisdictions/{jurisdictionId}"
                     + "/case-types/{caseType}"
-                    + "/cases/{cid}"
+                    + "/cases/{caseId}"
                     + "/events?ignoreWarning=true"
             )
             .then()
