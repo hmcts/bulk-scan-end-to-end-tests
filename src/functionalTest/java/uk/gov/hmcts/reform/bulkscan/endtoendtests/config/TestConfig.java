@@ -26,6 +26,6 @@ public class TestConfig {
 
     public static final String BLOB_ROUTER_URL = conf.getString("blob-router-url");
 
-    public static final String PROCESSOR_URL = ConfigFactory.load().getString("processor-url");
+    public static final String PROCESSOR_URL = conf.getString("processor-url");
 
 }
