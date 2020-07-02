@@ -25,5 +25,7 @@ jobs:
           java-version: 11
       - name: Run checks
         run: ./gradlew check
+      - name: Run OWASP dependencyCheckPurge
+        run: ./gradlew dependencyCheckPurge
       - name: Run OWASP check
         run: ./gradlew -DdependencyCheck.failBuild=true dependencyCheckAnalyze
