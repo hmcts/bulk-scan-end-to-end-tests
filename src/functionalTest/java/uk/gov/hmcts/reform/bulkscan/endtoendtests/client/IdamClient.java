@@ -15,7 +15,7 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_
 
 public class IdamClient {
 
-    private static final String BEARER_TOKEN = "Bearer ";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     public String getIdamToken() {
         JsonPath idamResponse = RestAssured
@@ -41,12 +41,12 @@ public class IdamClient {
         return idamResponse.getString("access_token");
     }
 
-    public String getUserId(String token) {
+    public String getUserId(String idamToken) {
         JsonPath idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
             .baseUri(IDAM_API_URL)
-            .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN + token)
+            .header(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + idamToken)
             .get("/details")
             .then()
             .assertThat()
