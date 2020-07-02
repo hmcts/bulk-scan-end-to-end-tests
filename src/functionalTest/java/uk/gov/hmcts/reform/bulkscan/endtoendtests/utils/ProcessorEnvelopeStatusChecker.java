@@ -1,15 +1,14 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.utils;
 
-import com.typesafe.config.ConfigFactory;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ResponseBody;
 
 import java.util.Optional;
 
-public final class ProcessorEnvelopeStatusChecker {
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.PROCESSOR_URL;
 
-    private static final String processorUrl = ConfigFactory.load().getString("processor-url");
+public final class ProcessorEnvelopeStatusChecker {
 
     private ProcessorEnvelopeStatusChecker() {
     }
@@ -33,7 +32,7 @@ public final class ProcessorEnvelopeStatusChecker {
         return RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(processorUrl)
+            .baseUri(PROCESSOR_URL)
             .queryParam("name", fileName)
             .get("/zip-files")
             .andReturn()

@@ -1,8 +1,6 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -17,16 +15,15 @@ import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.S2S_SECRET;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.S2S_URL;
 
 public class S2SClient {
-
-    private Config conf = ConfigFactory.load();
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public String getS2SToken() throws IOException {
-        String s2sSecret = conf.getString("s2s-secret");
-        final String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(s2sSecret));
+        final String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(S2S_SECRET));
         Map<String, String> signInDetails = new HashMap<>();
         signInDetails.put("microservice", "bulk_scan_orchestrator");
         signInDetails.put("oneTimePassword", oneTimePassword);
@@ -34,11 +31,10 @@ public class S2SClient {
         objectMapper.writeValue(baos, signInDetails);
         String signInDetailsStr = baos.toString();
 
-        String s2sUrl = conf.getString("s2s-url");
         Response s2sResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(s2sUrl)
+            .baseUri(S2S_URL)
             .header(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
             .body(signInDetailsStr)
             .post("/lease");

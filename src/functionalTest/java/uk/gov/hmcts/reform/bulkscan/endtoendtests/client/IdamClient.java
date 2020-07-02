@@ -1,48 +1,58 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
-
-import java.util.Map;
+import io.restassured.path.json.JsonPath;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
-import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_API_URL;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_CLIENT_REDIRECT_URI;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_CLIENT_SECRET;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_PASSWORD;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_USER_NAME;
 
 public class IdamClient {
 
-    private Config conf = ConfigFactory.load();
-
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     public String getIdamToken() throws JsonProcessingException {
-        String idamApiUrl = conf.getString("idam-api-url");
-        String idamClientRedirectUri = conf.getString("idam-client-redirect-uri");
-        String idamClientSecret = conf.getString("idam-client-secret");
-        String username = conf.getString("idam-users-bulkscan-username");
-        String password = conf.getString("idam-users-bulkscan-password");
-        Response idamResponse = RestAssured
+        JsonPath idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(idamApiUrl)
+            .baseUri(IDAM_API_URL)
             .header(CONTENT_TYPE, APPLICATION_FORM_URLENCODED.getMimeType())
             .formParam("grant_type", "password")
-            .formParam("redirect_uri", idamClientRedirectUri)
+            .formParam("redirect_uri", IDAM_CLIENT_REDIRECT_URI)
             .formParam("client_id", "bsp")
-            .formParam("client_secret", idamClientSecret)
+            .formParam("client_secret", IDAM_CLIENT_SECRET)
             .formParam("scope", "openid profile roles")
-            .formParam("username", username)
-            .formParam("password", password)
-            .post("/o/token");
+            .formParam("username", IDAM_USER_NAME)
+            .formParam("password", IDAM_PASSWORD)
+            .post("/o/token")
+            .then()
+            .assertThat()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .jsonPath();;
 
-        assertThat(idamResponse.getStatusCode()).isEqualTo(SC_OK);
 
-        Map<?, ?> r = objectMapper.readValue(idamResponse.getBody().print(), Map.class);
-        return (String)r.get("access_token");
+        return idamResponse.getString("access_token");
+    }
+
+    public String getUserId(String tokenWithBearer) throws JsonProcessingException {
+        JsonPath idamResponse = RestAssured
+            .given()
+            .relaxedHTTPSValidation()
+            .baseUri(IDAM_API_URL)
+            .header(HttpHeaders.AUTHORIZATION, tokenWithBearer)
+            .get("/details")
+            .then()
+            .assertThat()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .jsonPath();
+
+        return idamResponse.getString("id");
     }
 }

@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
@@ -9,12 +7,11 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 
 import java.util.Map;
 
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.CCD_API_URL;
+
 public class CcdClient {
 
     private static final String BEARER_TOKEN_PREFIX = "Bearer ";
-
-    private static Config conf = ConfigFactory.load();
-    private static String coreCaseDataApiUrl = conf.getString("core-case-data-api-url");
 
     public Map<String, Object> getCaseData(
         String accessToken,
@@ -37,7 +34,7 @@ public class CcdClient {
         return RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(coreCaseDataApiUrl)
+            .baseUri(CCD_API_URL)
             .header("experimental", true)
             .header("Authorization", BEARER_TOKEN_PREFIX + accessToken)
             .header("ServiceAuthorization", BEARER_TOKEN_PREFIX + s2sToken);

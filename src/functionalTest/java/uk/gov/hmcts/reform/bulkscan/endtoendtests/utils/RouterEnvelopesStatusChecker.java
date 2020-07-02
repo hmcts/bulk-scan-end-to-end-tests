@@ -1,11 +1,10 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests.utils;
 
-import com.typesafe.config.ConfigFactory;
 import io.restassured.RestAssured;
 
-public final class RouterEnvelopesStatusChecker {
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.BLOB_ROUTER_URL;
 
-    private static final String blobRouterUrl = ConfigFactory.load().getString("blob-router-url");
+public final class RouterEnvelopesStatusChecker {
 
     /**
      * Checks the status of envelope with given file name in blob-router.
@@ -14,7 +13,7 @@ public final class RouterEnvelopesStatusChecker {
         var responseBody = RestAssured
             .given()
             .relaxedHTTPSValidation()
-            .baseUri(blobRouterUrl)
+            .baseUri(BLOB_ROUTER_URL)
             .queryParam("file_name", fileName)
             .get("/envelopes")
             .andReturn()
