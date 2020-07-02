@@ -43,6 +43,7 @@ public class CcdClient {
         String idamToken,
         String s2sToken,
         String userId,
+        String caseId,
         Container container
     ) {
 
@@ -56,6 +57,7 @@ public class CcdClient {
                 userId,
                 containerMapping.jurisdiction,
                 caseTypeId,
+                caseId,
                 REJECT_EVENT_TYPE_ID
             );
 
@@ -89,17 +91,20 @@ public class CcdClient {
         String userId,
         String jurisdictionId,
         String caseType,
+        String caseId,
         String eventId
     ) {
         return getRequestSpecification(idamToken, s2sToken)
             .pathParam("userId", userId)
             .pathParam("jurisdictionId", jurisdictionId)
             .pathParam("caseType", caseType)
+            .pathParam("caseId", caseId)
             .pathParam("eventId", eventId)
             .get(
                 "/caseworkers/{userId}"
                     + "/jurisdictions/{jurisdictionId}"
                     + "/case-types/{caseType}"
+                    + "/cases/{caseId}"
                     + "/event-triggers/{eventId}/token"
             )
             .then()
