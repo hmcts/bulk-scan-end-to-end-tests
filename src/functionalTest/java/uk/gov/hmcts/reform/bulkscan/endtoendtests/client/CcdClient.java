@@ -32,9 +32,11 @@ public class CcdClient {
     }
 
     public static Map<String, Object> getCaseData(
-        String ccdId
+        String ccdId,
+        String idamUserName,
+        String idamPassword
     ) throws IOException {
-        CaseDetails caseResponse = getRequestSpecification(getIdamToken(), getS2SToken())
+        CaseDetails caseResponse = getRequestSpecification(getIdamToken(idamUserName, idamPassword), getS2SToken())
             .pathParam("ccdId", ccdId)
             .get("/cases/{ccdId}")
             .then()
@@ -51,7 +53,7 @@ public class CcdClient {
         Container container
     ) throws IOException {
 
-        String idamToken = getIdamToken();
+        String idamToken = getIdamToken(container.idamUserName, container.idamPassword);
         String s2sToken = getS2SToken();
         String userId = getUserId(idamToken);
 

@@ -13,26 +13,24 @@ import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_API_URL;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_CLIENT_REDIRECT_URI;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_CLIENT_SECRET;
-import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_PASSWORD;
-import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_USER_NAME;
+
 
 public class IdamClient {
 
     private static final String BEARER_PREFIX = "Bearer ";
-    private static String idamToken = null;
     private static Map<String, String> idamTokenUserIdMap = new HashMap<>();
+    private static Map<String, String> idamUserAccessTokenMap = new HashMap<>();
+
 
     private IdamClient() {
     }
 
-    public static String getIdamToken() {
-        if (idamToken == null) {
-            idamToken = retrieveIdamToken();
-        }
-        return idamToken;
+    public static String getIdamToken(String idamUserName, String idamPassword) {
+        return idamUserAccessTokenMap
+            .computeIfAbsent(idamUserName, i -> IdamClient.retrieveIdamToken(idamUserName, idamPassword));
     }
 
-    private static String retrieveIdamToken() {
+    private static String retrieveIdamToken(String idamUser, String idamPassword) {
         JsonPath idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
@@ -43,8 +41,8 @@ public class IdamClient {
             .formParam("client_id", "bsp")
             .formParam("client_secret", IDAM_CLIENT_SECRET)
             .formParam("scope", "openid profile roles")
-            .formParam("username", IDAM_USER_NAME)
-            .formParam("password", IDAM_PASSWORD)
+            .formParam("username", idamUser)
+            .formParam("password", idamPassword)
             .post("/o/token")
             .then()
             .assertThat()

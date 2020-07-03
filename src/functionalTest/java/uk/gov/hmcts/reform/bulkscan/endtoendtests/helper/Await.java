@@ -13,14 +13,15 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelope
 public final class Await {
 
     public static void paymentsProcessed(
-        String ccdId
+        String ccdId,
+        Container container
     ) {
         await("Payments for ccdId " + ccdId + " should be processed")
             .atMost(160, SECONDS)
             .pollInterval(1, SECONDS)
             .until(
                 () -> {
-                    Map<String, Object> caseData = CcdClient.getCaseData(ccdId);
+                    Map<String, Object> caseData = CcdClient.getCaseData(ccdId, container.idamPassword, container.idamUserName);
 
                     String awaitingPaymentDcnProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
                     String containsPayments = (String)caseData.get("containsPayments");

@@ -28,6 +28,26 @@ withNightlyPipeline(type, product, component) {
     'bulk-scan-aat': [
       secret('idam-users-bulkscan-username', 'IDAM_USERS_BULKSCAN_USERNAME'),
       secret('idam-users-bulkscan-password', 'IDAM_USERS_BULKSCAN_PASSWORD'),
+
+      secret('idam-users-cmc-username', 'IDAM_USERS_CMC_USERNAME'),
+      secret('idam-users-cmc-password', 'IDAM_USERS_CMC_PASSWORD'),
+
+      secret('idam-users-div-username', 'IDAM_USERS_DIV_USERNAME'),
+      secret('idam-users-div-password', 'IDAM_USERS_DIV_PASSWORD'),
+
+      secret('idam-users-finrem-username', 'IDAM_USERS_FINREM_USERNAME'),
+      secret('idam-users-finrem-password', 'IDAM_USERS_FINREM_PASSWORD'),
+
+      secret('idam-users-probate-username', 'IDAM_USERS_PROBATE_USERNAME'),
+      secret('idam-users-probate-password', 'IDAM_USERS_PROBATE_PASSWORD'),
+
+      secret('idam-users-sscs-username', 'IDAM_USERS_SSCS_USERNAME'),
+      secret('idam-users-sscs-password', 'IDAM_USERS_SSCS_PASSWORD'),
+
+      secret('idam-users-publiclaw-username', 'IDAM_USERS_PUBLICLAW_USERNAME'),
+      secret('idam-users-publiclaw-password', 'IDAM_USERS_PUBLICLAW_PASSWORD'),
+
+
       secret('idam-client-secret', 'IDAM_CLIENT_SECRET'),
       secret('s2s-secret-bulk-scan-orchestrator', 'S2S_SECRET')
     ]
