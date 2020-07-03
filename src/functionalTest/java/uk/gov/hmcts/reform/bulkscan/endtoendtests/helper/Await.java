@@ -22,7 +22,7 @@ public final class Await {
             .until(
                 () -> {
                     Map<String, Object> caseData =
-                        CcdClient.getCaseData(ccdId, container.idamPassword, container.idamUserName);
+                        CcdClient.getCaseData(ccdId, container.idamUserName, container.idamPassword);
 
                     String awaitingPaymentDcnProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
                     String containsPayments = (String)caseData.get("containsPayments");

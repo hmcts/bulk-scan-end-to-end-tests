@@ -47,7 +47,6 @@ withNightlyPipeline(type, product, component) {
       secret('idam-users-publiclaw-username', 'IDAM_USERS_PUBLICLAW_USERNAME'),
       secret('idam-users-publiclaw-password', 'IDAM_USERS_PUBLICLAW_PASSWORD'),
 
-
       secret('idam-client-secret', 'IDAM_CLIENT_SECRET'),
       secret('s2s-secret-bulk-scan-orchestrator', 'S2S_SECRET')
     ]

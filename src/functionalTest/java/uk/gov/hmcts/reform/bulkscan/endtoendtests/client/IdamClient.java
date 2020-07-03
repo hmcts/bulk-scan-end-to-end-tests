@@ -30,7 +30,7 @@ public class IdamClient {
             .computeIfAbsent(idamUserName, i -> IdamClient.retrieveIdamToken(idamUserName, idamPassword));
     }
 
-    private static String retrieveIdamToken(String idamUser, String idamPassword) {
+    private static String retrieveIdamToken(String idamUserName, String idamPassword) {
         JsonPath idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
@@ -41,7 +41,7 @@ public class IdamClient {
             .formParam("client_id", "bsp")
             .formParam("client_secret", IDAM_CLIENT_SECRET)
             .formParam("scope", "openid profile roles")
-            .formParam("username", idamUser)
+            .formParam("username", idamUserName)
             .formParam("password", idamPassword)
             .post("/o/token")
             .then()
