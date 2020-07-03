@@ -35,9 +35,6 @@ withNightlyPipeline(type, product, component) {
       secret('idam-users-div-username', 'IDAM_USERS_DIV_USERNAME'),
       secret('idam-users-div-password', 'IDAM_USERS_DIV_PASSWORD'),
 
-      secret('idam-users-finrem-username', 'IDAM_USERS_FINREM_USERNAME'),
-      secret('idam-users-finrem-password', 'IDAM_USERS_FINREM_PASSWORD'),
-
       secret('idam-users-probate-username', 'IDAM_USERS_PROBATE_USERNAME'),
       secret('idam-users-probate-password', 'IDAM_USERS_PROBATE_PASSWORD'),
 
