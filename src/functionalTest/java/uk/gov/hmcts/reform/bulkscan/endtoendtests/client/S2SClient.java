@@ -20,9 +20,20 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.S2S_U
 
 public class S2SClient {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static String s2sToken = null;
 
-    public String getS2SToken() throws IOException {
+    private S2SClient() {
+    }
+
+    public static String getS2SToken() throws IOException {
+        if (s2sToken == null) {
+            retrieveS2SToken();
+        }
+        return s2sToken;
+    }
+
+    private static String retrieveS2SToken() throws IOException {
         final String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(S2S_SECRET));
         Map<String, String> signInDetails = new HashMap<>();
         signInDetails.put("microservice", "bulk_scan_orchestrator");

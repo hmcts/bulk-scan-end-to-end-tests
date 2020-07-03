@@ -5,6 +5,9 @@ import io.restassured.path.json.JsonPath;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_API_URL;
@@ -16,8 +19,20 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_
 public class IdamClient {
 
     private static final String BEARER_PREFIX = "Bearer ";
+    private static String idamToken = null;
+    private static Map<String, String> idamTokenUserIdMap = new HashMap<>();
 
-    public String getIdamToken() {
+    private IdamClient() {
+    }
+
+    public static String getIdamToken() {
+        if (idamToken == null) {
+            idamToken = retrieveIdamToken();
+        }
+        return idamToken;
+    }
+
+    private static String retrieveIdamToken() {
         JsonPath idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()
@@ -35,13 +50,17 @@ public class IdamClient {
             .assertThat()
             .statusCode(HttpStatus.OK.value())
             .extract()
-            .jsonPath();;
-
+            .jsonPath();
 
         return idamResponse.getString("access_token");
     }
 
-    public String getUserId(String idamToken) {
+    public static String getUserId(String idamToken) {
+        return idamTokenUserIdMap.computeIfAbsent(idamToken, IdamClient::retrieveUserId);
+    }
+
+    private static String retrieveUserId(String idamToken) {
+
         JsonPath idamResponse = RestAssured
             .given()
             .relaxedHTTPSValidation()

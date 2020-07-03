@@ -2,8 +2,6 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.S2SClient;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
@@ -16,12 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
 public class PaymentsTest {
-
-    private IdamClient idamClient = new IdamClient();
-
-    private S2SClient s2SClient = new S2SClient();
-
-    private CcdClient ccdClient = new CcdClient();
 
     @Test
     public void should_create_exception_record_with_payments_when_envelope_contains_payments() throws Exception {
@@ -38,15 +30,9 @@ public class PaymentsTest {
 
         final String ccdId = retrieveCcdId(zipArchive.fileName);
 
-        final String idamToken = idamClient.getIdamToken();
-        final String s2sToken = s2SClient.getS2SToken();
+        Await.paymentsProcessed(ccdId);
 
-        Await.paymentsProcessed(ccdClient, idamToken, s2sToken, ccdId);
-
-        final String userId = idamClient.getUserId(idamToken);
-
-        System.out.println("userId " + userId);
-        ccdClient.startRejectEventAndSubmit(idamToken, s2sToken, userId, ccdId, Container.BULKSCAN);
+        CcdClient.rejectException(ccdId, Container.BULKSCAN);
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {

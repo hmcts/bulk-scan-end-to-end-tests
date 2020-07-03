@@ -10,11 +10,15 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getIdamToken;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getUserId;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.S2SClient.getS2SToken;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.CCD_API_URL;
 
 public class CcdClient {
@@ -24,12 +28,13 @@ public class CcdClient {
     private static final String REJECT_EVENT_TYPE_ID = "rejectRecord";
     private static final String REJECT_EVENT_SUMMARY = "Reject the test exception record";
 
-    public Map<String, Object> getCaseData(
-        String idamToken,
-        String s2sToken,
+    private CcdClient() {
+    }
+
+    public static Map<String, Object> getCaseData(
         String ccdId
-    ) {
-        CaseDetails caseResponse = getRequestSpecification(idamToken, s2sToken)
+    ) throws IOException {
+        CaseDetails caseResponse = getRequestSpecification(getIdamToken(), getS2SToken())
             .pathParam("ccdId", ccdId)
             .get("/cases/{ccdId}")
             .then()
@@ -41,13 +46,14 @@ public class CcdClient {
         return caseResponse.getData();
     }
 
-    public void startRejectEventAndSubmit(
-        String idamToken,
-        String s2sToken,
-        String userId,
+    public static void rejectException(
         String caseId,
         Container container
-    ) {
+    ) throws IOException {
+
+        String idamToken = getIdamToken();
+        String s2sToken = getS2SToken();
+        String userId = getUserId(idamToken);
 
         String caseTypeId = container.name.toUpperCase(Locale.getDefault()) + "_" + CASE_TYPE;
         var containerMapping = ContainerJurisdictionPoBoxMapper.getMappedContainerData(container);
@@ -63,10 +69,8 @@ public class CcdClient {
                 REJECT_EVENT_TYPE_ID
             );
 
-        System.out.println("startEventResponse token  " + startEventResponse.getToken());
 
         Map<String, Object> caseData = startEventResponse.getCaseDetails().getData();
-        System.out.println("caseData  " + caseData);
 
         CaseDataContent newCaseDataContent = CaseDataContent.builder()
             .eventToken(startEventResponse.getToken())
@@ -88,7 +92,7 @@ public class CcdClient {
         );
     }
 
-    private StartEventResponse startEvent(
+    private static StartEventResponse startEvent(
         String idamToken,
         String s2sToken,
         String userId,
@@ -118,7 +122,7 @@ public class CcdClient {
             .as(StartEventResponse.class);
     }
 
-    private CaseDetails submitEvent(
+    private static CaseDetails submitEvent(
         String idamToken,
         String s2sToken,
         String userId,
@@ -148,7 +152,7 @@ public class CcdClient {
             .as(CaseDetails.class);
     }
 
-    private RequestSpecification getRequestSpecification(String idamToken, String s2sToken) {
+    private static RequestSpecification getRequestSpecification(String idamToken, String s2sToken) {
         return RestAssured
             .given()
             .relaxedHTTPSValidation()
