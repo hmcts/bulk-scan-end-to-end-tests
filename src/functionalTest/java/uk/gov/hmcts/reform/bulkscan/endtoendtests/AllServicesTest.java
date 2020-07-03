@@ -29,7 +29,7 @@ class AllServicesTest {
         Await.envelopeCompleted(zipArchive.fileName);
 
         final String ccdId = retrieveCcdId(zipArchive.fileName);
-        System.out.println("AllServicesTest container ="+ container + ", EXCEPTION record, caseid=" + ccdId);
+        System.out.println("AllServicesTest container =" + container + ", EXCEPTION record, caseid=" + ccdId);
         CcdClient.rejectException(ccdId, container);
     }
 
