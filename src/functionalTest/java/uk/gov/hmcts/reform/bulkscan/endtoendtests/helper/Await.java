@@ -21,7 +21,8 @@ public final class Await {
             .pollInterval(1, SECONDS)
             .until(
                 () -> {
-                    Map<String, Object> caseData = CcdClient.getCaseData(ccdId, container.idamPassword, container.idamUserName);
+                    Map<String, Object> caseData =
+                        CcdClient.getCaseData(ccdId, container.idamPassword, container.idamUserName);
 
                     String awaitingPaymentDcnProcessing = (String)caseData.get("awaitingPaymentDCNProcessing");
                     String containsPayments = (String)caseData.get("containsPayments");
