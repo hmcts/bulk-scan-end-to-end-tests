@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
@@ -10,6 +11,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.model.Classification;
 
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.model.Classification.EXCEPTION;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.model.Classification.NEW_APPLICATION;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.retrieveCcdId;
 
 class AllServicesTest {
 
@@ -25,6 +27,10 @@ class AllServicesTest {
         // then
         Await.envelopeDispatched(zipArchive.fileName);
         Await.envelopeCompleted(zipArchive.fileName);
+
+        final String ccdId = retrieveCcdId(zipArchive.fileName);
+        System.out.println("AllServicesTest container ="+ container + ", EXCEPTION record, caseid=" + ccdId);
+        CcdClient.rejectException(ccdId, container);
     }
 
     private static Object[][] serviceWithClassification() {

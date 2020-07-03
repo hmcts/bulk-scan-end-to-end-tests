@@ -6,12 +6,10 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.retrieveCcdId;
 
 public class PaymentsTest {
 
@@ -31,7 +29,7 @@ public class PaymentsTest {
         final String ccdId = retrieveCcdId(zipArchive.fileName);
 
         Await.paymentsProcessed(ccdId);
-
+        System.out.println("PaymentsTest EXCEPTION record  caseid=" + ccdId);
         CcdClient.rejectException(ccdId, Container.BULKSCAN);
     }
 
@@ -45,11 +43,4 @@ public class PaymentsTest {
         });
     }
 
-    private String retrieveCcdId(String zipFileName) {
-        Optional<ProcessorEnvelopeResult> processorEnvelopeResult = getZipFileStatus(zipFileName);
-
-        assertThat(processorEnvelopeResult.isPresent()).isTrue();
-
-        return processorEnvelopeResult.get().ccdId;
-    }
 }

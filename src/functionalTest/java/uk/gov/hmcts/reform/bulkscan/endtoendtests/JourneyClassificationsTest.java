@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
@@ -10,6 +11,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.model.Classification;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.retrieveCcdId;
 
 public class JourneyClassificationsTest {
 
@@ -27,6 +29,10 @@ public class JourneyClassificationsTest {
 
         //get the process result again and assert
         assertCompletedProcessorResult(zipArchive.fileName);
+        final String ccdId = retrieveCcdId(zipArchive.fileName);
+        System.out.println("JourneyClassificationsTest EXCEPTION record, caseid=" + ccdId);
+        CcdClient.rejectException(ccdId, Container.BULKSCAN);
+
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {

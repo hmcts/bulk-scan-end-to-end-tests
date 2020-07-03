@@ -6,6 +6,7 @@ import io.restassured.response.ResponseBody;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.PROCESSOR_URL;
 
 public final class ProcessorEnvelopeStatusChecker {
@@ -26,6 +27,14 @@ public final class ProcessorEnvelopeStatusChecker {
                 jsonPath.getString("envelopes[0].envelope_ccd_action")
             ));
         }
+    }
+
+    public static String retrieveCcdId(String zipFileName) {
+        Optional<ProcessorEnvelopeResult> processorEnvelopeResult = getZipFileStatus(zipFileName);
+
+        assertThat(processorEnvelopeResult.isPresent()).isTrue();
+
+        return processorEnvelopeResult.get().ccdId;
     }
 
     private static ResponseBody getZipFileStatusResponse(String fileName) {
