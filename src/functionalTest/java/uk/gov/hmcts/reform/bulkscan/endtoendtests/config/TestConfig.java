@@ -19,9 +19,6 @@ public class TestConfig {
     public static final String DIVORCE_IDAM_USER_NAME = conf.getString("idam-users-div-username");
     public static final String DIVORCE_IDAM_PASSWORD = conf.getString("idam-users-div-password");
 
-    public static final String FINREM_IDAM_USER_NAME = conf.getString("idam-users-finrem-username");
-    public static final String FINREM_IDAM_PASSWORD = conf.getString("idam-users-finrem-password");
-
     public static final String PROBATE_IDAM_USER_NAME = conf.getString("idam-users-probate-username");
     public static final String PROBATE_IDAM_PASSWORD = conf.getString("idam-users-probate-password");
 
