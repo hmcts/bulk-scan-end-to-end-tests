@@ -28,7 +28,7 @@ public class S2SClient {
 
     public static String getS2SToken() throws IOException {
         if (s2sToken == null) {
-            retrieveS2SToken();
+            s2sToken = retrieveS2SToken();
         }
         return s2sToken;
     }
