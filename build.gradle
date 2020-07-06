@@ -157,12 +157,9 @@ dependencies {
 
   testImplementation libraries.junit5
   testImplementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.6.4', {
-    exclude group: 'org.springframework', module: 'spring-core'
-    exclude group: 'org.springframework', module: 'spring-context'
-    exclude group: 'org.springframework', module: 'spring-expression'
-    exclude group: 'org.springframework', module: 'spring-beans'
-    exclude group: 'org.springframework', module: 'spring-web'
-    exclude group: 'org.springframework.security', module: 'spring-security-crypto'
+    exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-openfeign'
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-actuator'
+    exclude group: 'io.github.openfeign', module: 'feign-jackson'
   }
 
 
