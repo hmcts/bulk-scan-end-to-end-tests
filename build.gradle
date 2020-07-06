@@ -123,16 +123,6 @@ dependencyManagement {
     dependencySet(group: 'com.google.guava', version: '29.0-jre') {
       entry 'guava'
     }
-    dependencySet(group: 'org.springframework', version: '5.2.5.RELEASE') {
-      entry 'spring-core'
-      entry 'spring-context'
-      entry 'spring-expression'
-      entry 'spring-beans'
-      entry 'spring-web'
-    }
-    dependencySet(group: 'org.springframework.security', version: '5.2.5.RELEASE') {
-      entry 'spring-security-crypto'
-    }
   }
 }
 
@@ -166,7 +156,15 @@ dependencies {
   implementation group: 'commons-io', name: 'commons-io', version: '2.7'
 
   testImplementation libraries.junit5
-  testImplementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.6.4'
+  testImplementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.6.4', {
+    exclude group: 'org.springframework', module: 'spring-core'
+    exclude group: 'org.springframework', module: 'spring-context'
+    exclude group: 'org.springframework', module: 'spring-expression'
+    exclude group: 'org.springframework', module: 'spring-beans'
+    exclude group: 'org.springframework', module: 'spring-web'
+    exclude group: 'org.springframework.security', module: 'spring-security-crypto'
+  }
+
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath

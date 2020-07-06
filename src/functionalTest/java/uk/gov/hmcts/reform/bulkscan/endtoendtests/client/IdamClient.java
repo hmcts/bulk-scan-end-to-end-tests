@@ -2,13 +2,13 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_FORM_URLENCODED;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_API_URL;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.IDAM_CLIENT_REDIRECT_URI;
@@ -46,7 +46,7 @@ public class IdamClient {
             .post("/o/token")
             .then()
             .assertThat()
-            .statusCode(HttpStatus.OK.value())
+            .statusCode(SC_OK)
             .extract()
             .jsonPath();
 
@@ -63,11 +63,11 @@ public class IdamClient {
             .given()
             .relaxedHTTPSValidation()
             .baseUri(IDAM_API_URL)
-            .header(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + idamToken)
+            .header(AUTHORIZATION, BEARER_PREFIX + idamToken)
             .get("/details")
             .then()
             .assertThat()
-            .statusCode(HttpStatus.OK.value())
+            .statusCode(SC_OK)
             .extract()
             .jsonPath();
 

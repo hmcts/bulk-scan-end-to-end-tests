@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests.client;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
-import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoBoxMapper;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
@@ -14,8 +13,9 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.apache.http.HttpHeaders.CONTENT_TYPE;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getIdamToken;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getUserId;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.S2SClient.getS2SToken;
@@ -41,7 +41,7 @@ public class CcdClient {
             .get("/cases/{ccdId}")
             .then()
             .assertThat()
-            .statusCode(HttpStatus.OK.value())
+            .statusCode(SC_OK)
             .extract()
             .as(CaseDetails.class);
 
@@ -104,7 +104,7 @@ public class CcdClient {
         String eventId
     ) {
         return getRequestSpecification(idamToken, s2sToken)
-            .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+            .header(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
             .pathParam("userId", userId)
             .pathParam("jurisdictionId", jurisdictionId)
             .pathParam("caseType", caseType)
@@ -119,7 +119,7 @@ public class CcdClient {
             )
             .then()
             .assertThat()
-            .statusCode(HttpStatus.OK.value())
+            .statusCode(SC_OK)
             .extract()
             .as(StartEventResponse.class);
     }
@@ -134,7 +134,7 @@ public class CcdClient {
         CaseDataContent caseDataContent
     ) {
         return getRequestSpecification(idamToken, s2sToken)
-            .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+            .header(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
             .pathParam("userId", userId)
             .pathParam("jurisdictionId", jurisdictionId)
             .pathParam("caseType", caseType)
@@ -149,7 +149,7 @@ public class CcdClient {
             )
             .then()
             .assertThat()
-            .statusCode(HttpStatus.CREATED.value())
+            .statusCode(SC_OK)
             .extract()
             .as(CaseDetails.class);
     }
