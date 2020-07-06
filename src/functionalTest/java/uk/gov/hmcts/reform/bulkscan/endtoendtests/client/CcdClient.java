@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getIdamToken;
@@ -149,7 +150,7 @@ public class CcdClient {
             )
             .then()
             .assertThat()
-            .statusCode(SC_OK)
+            .statusCode(SC_CREATED)
             .extract()
             .as(CaseDetails.class);
     }
