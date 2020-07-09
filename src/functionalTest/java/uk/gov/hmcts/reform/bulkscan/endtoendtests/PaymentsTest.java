@@ -29,7 +29,6 @@ public class PaymentsTest {
         final String ccdId = retrieveCcdId(zipArchive.fileName);
 
         Await.paymentsProcessed(ccdId, Container.BULKSCAN);
-        System.out.println("PaymentsTest EXCEPTION record  caseid=" + ccdId);
         CcdClient.rejectException(ccdId, Container.BULKSCAN);
     }
 

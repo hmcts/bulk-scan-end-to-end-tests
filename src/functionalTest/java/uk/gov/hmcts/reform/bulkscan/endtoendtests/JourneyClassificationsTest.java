@@ -30,7 +30,6 @@ public class JourneyClassificationsTest {
         //get the process result again and assert
         assertCompletedProcessorResult(zipArchive.fileName);
         final String ccdId = retrieveCcdId(zipArchive.fileName);
-        System.out.println("JourneyClassificationsTest EXCEPTION record, caseid=" + ccdId);
         CcdClient.rejectException(ccdId, Container.BULKSCAN);
 
     }
