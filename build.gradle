@@ -156,7 +156,7 @@ dependencies {
   implementation group: 'commons-io', name: 'commons-io', version: '2.7'
 
   testImplementation libraries.junit5
-  testImplementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: 'v4.7.1', {
+  testImplementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.7.2', {
     exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-openfeign'
     exclude group: 'org.springframework.boot', module: 'spring-boot-starter-actuator'
     exclude group: 'io.github.openfeign', module: 'feign-jackson'
