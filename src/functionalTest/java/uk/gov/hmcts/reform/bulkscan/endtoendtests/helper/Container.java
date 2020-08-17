@@ -16,6 +16,7 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.config.TestConfig.SSCS_
 public enum Container {
 
     BULKSCAN("bulkscan", BULKSCAN_IDAM_USER_NAME, BULKSCAN_IDAM_PASSWORD),
+    BULKSCAN_AUTO("bulkscanauto", BULKSCAN_IDAM_USER_NAME, BULKSCAN_IDAM_PASSWORD),
     CMC("cmc", CMC_IDAM_USER_NAME, CMC_IDAM_PASSWORD),
     DIVORCE("divorce", DIVORCE_IDAM_USER_NAME, DIVORCE_IDAM_PASSWORD),
     FINREM("finrem", DIVORCE_IDAM_USER_NAME, DIVORCE_IDAM_PASSWORD),
