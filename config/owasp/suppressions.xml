@@ -8,4 +8,20 @@
     <cve>CVE-2016-6798</cve>
   </suppress>
 
+  <suppress until="2021-01-05">
+    <notes><![CDATA[
+   file name: groovy-json-3.0.3.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org.codehaus.groovy/groovy-json@.*$</packageUrl>
+    <cve>CVE-2020-7712</cve>
+  </suppress>
+
+  <suppress until="2021-01-05">
+    <notes><![CDATA[
+   file name: json-path-4.3.1.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/io.rest-assured/json-path@.*$</packageUrl>
+    <cve>CVE-2020-7712</cve>
+  </suppress>
+
 </suppressions>
