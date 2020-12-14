@@ -123,7 +123,7 @@ dependencyManagement {
     dependencySet(group: 'com.google.guava', version: '30.0-jre') {
       entry 'guava'
     }
-    dependencySet(group: 'org.springframework.boot', version: '2.4.0') {
+    dependencySet(group: 'org.springframework.boot', version: '2.4.1') {
       entry 'spring-boot'
     }
   }
