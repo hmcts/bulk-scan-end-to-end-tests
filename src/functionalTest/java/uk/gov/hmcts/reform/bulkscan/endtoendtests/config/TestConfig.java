@@ -34,8 +34,6 @@ public class TestConfig {
     public static final String CCD_API_URL = conf.getString("core-case-data-api-url");
 
     public static final String STORAGE_URL = conf.getString("storage-account-url");
-    public static final String PROXY_HOST = conf.getString("proxy-host");
-    public static final int PROXY_PORT = conf.getInt("proxy-port");
 
     public static final String KEY_BASE_64_FORMAT = conf.getString("signing-key-der-base64");
 
