@@ -47,7 +47,7 @@ public final class ZipFileHelper {
         );
     }
 
-    public static ZipArchive createZipArchive(
+    private static ZipArchive createZipArchive(
         List<String> pdfFiles,
         String metadataFile,
         Container container
