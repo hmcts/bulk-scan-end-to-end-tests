@@ -36,8 +36,8 @@ public class BulkScanAutoUpdateTest {
         Map<String, Object> caseData =
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
         Map<String, String> ocrData = getOcrData(caseData);
-        assertThat(ocrData.get("first_name")).isEqualTo("Name");
-        assertThat(ocrData.get("last_name")).isEqualTo("Surname");
+        assertThat(ocrData.get("firstName")).isEqualTo("Name");
+        assertThat(ocrData.get("lastName")).isEqualTo("Surname");
         assertThat(ocrData.get("email")).isEqualTo("e2e@test.dev");
     }
 
