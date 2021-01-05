@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
-import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
@@ -56,18 +55,16 @@ public class BulkScanAutoUpdateTest {
         List<Map<String, Object>> ccdOcrData =
             (List<Map<String, Object>>) caseData.get("scanOCRData");
 
-        if (ccdOcrData != null) {
-            return ccdOcrData
-                .stream()
-                .map(ccdCollectionElement -> ((Map<String, String>) ccdCollectionElement.get("value")))
-                .collect(
-                    toMap(
-                        map -> map.get("key"),
-                        map -> map.get("value")
-                    )
-                );
-        } else {
-            return ImmutableMap.of();
-        }
+        return ccdOcrData
+            .stream()
+            .map(items -> items.get("value"))
+            .filter(item -> item instanceof Map)
+            .map(item -> (Map<String, String>) item)
+            .collect(
+                toMap(
+                    map -> map.get("key"),
+                    map -> map.get("value")
+                )
+            );
     }
 }

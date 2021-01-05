@@ -41,6 +41,7 @@ public class CcdClient {
             .pathParam("ccdId", ccdId)
             .get("/cases/{ccdId}")
             .then()
+            .log().body() // debug
             .assertThat()
             .statusCode(SC_OK)
             .extract()
