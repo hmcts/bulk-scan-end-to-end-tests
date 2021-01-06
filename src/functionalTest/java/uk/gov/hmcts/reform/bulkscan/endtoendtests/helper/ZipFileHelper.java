@@ -39,10 +39,20 @@ public final class ZipFileHelper {
         Container container
     ) throws Exception {
         var ocrData = OcrDataEncoder.encodeDefaultOcrData(container);
-        return createZipArchive(dirName, container, "", ocrData);
+        return buildZipArchive(dirName, container, "", ocrData);
     }
 
     public static ZipArchive createZipArchive(
+        String dirName,
+        Container container,
+        String caseNumber,
+        String ocrDataFileName
+    ) throws Exception {
+        var ocrData = OcrDataEncoder.encodeOcrData(ocrDataFileName);
+        return buildZipArchive(dirName, container, caseNumber, ocrData);
+    }
+
+    private static ZipArchive buildZipArchive(
         String dirName,
         Container container,
         String caseNumber,
