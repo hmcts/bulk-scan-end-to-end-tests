@@ -63,7 +63,7 @@ public final class ZipFileHelper {
                 .map(e -> dirName + "/" + e.getName())
                 .collect(toList());
 
-        return createZipArchive(
+        return buildZipArchive(
             files.stream().filter(f -> f.endsWith(".pdf")).collect(toList()),
             files.stream().filter(f -> f.endsWith(".json")).collect(toList()).get(0),
             container,
@@ -72,7 +72,7 @@ public final class ZipFileHelper {
         );
     }
 
-    private static ZipArchive createZipArchive(
+    private static ZipArchive buildZipArchive(
         List<String> pdfFiles,
         String metadataFile,
         Container container,
