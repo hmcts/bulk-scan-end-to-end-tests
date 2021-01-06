@@ -34,7 +34,20 @@ public final class ZipFileHelper {
         // utility class
     }
 
-    public static ZipArchive createZipArchive(String dirName, Container container) throws Exception {
+    public static ZipArchive createZipArchive(
+        String dirName,
+        Container container
+    ) throws Exception {
+        var ocrData = OcrDataEncoder.encodeDefaultOcrData(container);
+        return createZipArchive(dirName, container, "", ocrData);
+    }
+
+    public static ZipArchive createZipArchive(
+        String dirName,
+        Container container,
+        String caseNumber,
+        String ocrData
+    ) throws Exception {
         List<String> files =
             Stream.of(new File(getResource(dirName).getPath()).listFiles())
                 .map(e -> dirName + "/" + e.getName())
@@ -43,14 +56,18 @@ public final class ZipFileHelper {
         return createZipArchive(
             files.stream().filter(f -> f.endsWith(".pdf")).collect(toList()),
             files.stream().filter(f -> f.endsWith(".json")).collect(toList()).get(0),
-            container
+            container,
+            caseNumber,
+            ocrData
         );
     }
 
     private static ZipArchive createZipArchive(
         List<String> pdfFiles,
         String metadataFile,
-        Container container
+        Container container,
+        String caseNumber,
+        String ocrData
     ) throws Exception {
         String zipFileName = String.format(
             "%s_%s.test.zip",
@@ -58,11 +75,11 @@ public final class ZipFileHelper {
             LocalDateTime.now().format(FILE_NAME_DATE_TIME_FORMAT)
         );
         var containerMapping = ContainerJurisdictionPoBoxMapper.getMappedContainerData(container);
-        var ocrData = OcrDataEncoder.encodeDefaultOcrData(container);
 
         String metadataContent = updateMetadata(
             metadataFile,
             zipFileName,
+            caseNumber,
             containerMapping.jurisdiction,
             containerMapping.poBox,
             containerMapping.formType,
@@ -112,6 +129,7 @@ public final class ZipFileHelper {
     private static String updateMetadata(
         String metadataFile,
         String zipFileName,
+        String caseNumber,
         String jurisdiction,
         String poBox,
         String formType,
@@ -127,6 +145,7 @@ public final class ZipFileHelper {
             .put("$$zip_file_name$$", zipFileName)
             .put("$$dcn1$$", generateDocumentDcnNumber())
             .put("$$payment_dcn$$", generatePaymentDcnNumber())
+            .put("$$case_number$$", caseNumber)
             .put("$$jurisdiction$$", jurisdiction)
             .put("$$po_box$$", poBox)
             .put("$$form_type$$", formType)

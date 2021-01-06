@@ -13,11 +13,15 @@ public final class OcrDataEncoder {
     }
 
     public static String encodeDefaultOcrData(Container container) throws IOException {
+        return encodeOcrData("ocr-data/" + container + ".json");
+    }
+
+    public static String encodeOcrData(String fileName) throws IOException {
         return Base64
             .getEncoder()
             .encodeToString(
                 Resources.toByteArray(
-                    Resources.getResource("ocr-data/" + container + ".json")
+                    Resources.getResource("ocr-data/" + fileName + ".json")
                 )
             );
     }
