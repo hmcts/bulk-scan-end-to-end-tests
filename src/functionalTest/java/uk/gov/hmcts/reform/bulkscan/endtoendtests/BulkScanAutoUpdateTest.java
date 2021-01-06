@@ -6,10 +6,8 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 
-import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container.BULKSCAN_AUTO;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
@@ -34,10 +32,9 @@ public class BulkScanAutoUpdateTest {
 
         Map<String, Object> caseData =
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
-        Map<String, String> ocrData = getOcrData(caseData);
-        assertThat(ocrData.get("firstName")).isEqualTo("Name");
-        assertThat(ocrData.get("lastName")).isEqualTo("Surname");
-        assertThat(ocrData.get("email")).isEqualTo("e2e@test.dev");
+        assertThat(caseData.get("firstName")).isEqualTo("Name");
+        assertThat(caseData.get("lastName")).isEqualTo("Surname");
+        assertThat(caseData.get("email")).isEqualTo("e2e@test.dev");
     }
 
     private void assertCompletedProcessorResult(String zipFileName) {
@@ -48,23 +45,5 @@ public class BulkScanAutoUpdateTest {
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
         });
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, String> getOcrData(Map<String, Object> caseData) {
-        List<Map<String, Object>> ccdOcrData =
-            (List<Map<String, Object>>) caseData.get("scanOCRData");
-
-        return ccdOcrData
-            .stream()
-            .map(items -> items.get("value"))
-            .filter(item -> item instanceof Map)
-            .map(item -> (Map<String, String>) item)
-            .collect(
-                toMap(
-                    map -> map.get("key"),
-                    map -> map.get("value")
-                )
-            );
     }
 }
