@@ -13,7 +13,7 @@ public final class OcrDataEncoder {
     }
 
     public static String encodeDefaultOcrData(Container container) throws IOException {
-        return encodeOcrData("ocr-data/" + container + ".json");
+        return encodeOcrData(container + "");
     }
 
     public static String encodeOcrData(String fileName) throws IOException {
