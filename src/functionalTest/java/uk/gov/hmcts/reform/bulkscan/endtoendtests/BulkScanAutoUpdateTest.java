@@ -6,6 +6,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,16 +26,10 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeDispatched(zipArchiveCreate.fileName);
         Await.envelopeCompleted(zipArchiveCreate.fileName);
 
-        //get the process result again and assert
         assertCompletedProcessorResult(zipArchiveCreate.fileName, "CASE_CREATED");
 
         String ccdId = getZipFileStatus(zipArchiveCreate.fileName).get().ccdId;
-
-        Map<String, Object> caseData =
-            CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
-        assertThat(caseData.get("firstName")).isEqualTo("Name");
-        assertThat(caseData.get("lastName")).isEqualTo("Surname");
-        assertThat(caseData.get("email")).isEqualTo("e2e@test.dev");
+        assertCaseFields(ccdId, "Name", "Surname", "e2e@test.dev");
 
         var zipArchiveUpdate = ZipFileHelper.createZipArchive(
             "test-data/auto-update",
@@ -48,14 +43,9 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeDispatched(zipArchiveUpdate.fileName);
         Await.envelopeCompleted(zipArchiveUpdate.fileName);
 
-        //get the process result again and assert
         assertCompletedProcessorResult(zipArchiveUpdate.fileName, "AUTO_UPDATED_CASE");
 
-        Map<String, Object> caseDataUpdated =
-            CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
-        assertThat(caseDataUpdated.get("firstName")).isEqualTo("Name1");
-        assertThat(caseDataUpdated.get("lastName")).isEqualTo("Surname1");
-        assertThat(caseDataUpdated.get("email")).isEqualTo("e2e1@test.dev");
+        assertCaseFields(ccdId, "Name1", "Surname1", "e2e1@test.dev");
     }
 
     private void assertCompletedProcessorResult(String zipFileName, String ccdAction) {
@@ -66,5 +56,18 @@ public class BulkScanAutoUpdateTest {
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
         });
+    }
+
+    private void assertCaseFields(
+        String ccdId,
+        String name,
+        String surname,
+        String email
+    ) throws IOException {
+        Map<String, Object> caseDataUpdated =
+            CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
+        assertThat(caseDataUpdated.get("firstName")).isEqualTo(name);
+        assertThat(caseDataUpdated.get("lastName")).isEqualTo(surname);
+        assertThat(caseDataUpdated.get("email")).isEqualTo(email);
     }
 }
