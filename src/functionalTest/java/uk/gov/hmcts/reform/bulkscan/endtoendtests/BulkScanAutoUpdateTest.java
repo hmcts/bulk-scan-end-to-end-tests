@@ -26,7 +26,7 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeCompleted(zipArchiveCreate.fileName);
 
         //get the process result again and assert
-        assertCompletedProcessorResult(zipArchiveCreate.fileName);
+        assertCompletedProcessorResult(zipArchiveCreate.fileName, "CASE_CREATED");
 
         String ccdId = getZipFileStatus(zipArchiveCreate.fileName).get().ccdId;
 
@@ -49,7 +49,7 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeCompleted(zipArchiveUpdate.fileName);
 
         //get the process result again and assert
-        assertCompletedProcessorResult(zipArchiveUpdate.fileName);
+        assertCompletedProcessorResult(zipArchiveUpdate.fileName, "AUTO_UPDATED_CASE");
 
         Map<String, Object> caseDataUpdated =
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
@@ -58,11 +58,11 @@ public class BulkScanAutoUpdateTest {
         assertThat(caseDataUpdated.get("email")).isEqualTo("e2e1@test.dev");
     }
 
-    private void assertCompletedProcessorResult(String zipFileName) {
+    private void assertCompletedProcessorResult(String zipFileName, String ccdAction) {
         assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
             assertThat(env.ccdId).isNotBlank();
             assertThat(env.container).isEqualTo(BULKSCAN_AUTO.name);
-            assertThat(env.envelopeCcdAction).isEqualTo("CASE_CREATED");
+            assertThat(env.envelopeCcdAction).isEqualTo(ccdAction);
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
         });
