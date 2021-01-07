@@ -16,7 +16,7 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelope
 public class BulkScanAutoUpdateTest {
 
     @Test
-    public void should_dispatch_blob_and_create_exception_record_for_classification()
+    public void should_create_and_update_case_automatically()
         throws Exception {
 
         var zipArchiveCreate = ZipFileHelper.createZipArchive("test-data/new_application", BULKSCAN_AUTO);
