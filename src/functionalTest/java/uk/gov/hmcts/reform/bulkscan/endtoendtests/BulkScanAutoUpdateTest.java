@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.EnvelopeAction;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -95,11 +96,11 @@ public class BulkScanAutoUpdateTest {
         Map<String, Object> caseDetails,
         EnvelopeAction[] envelopeActions
     ) {
-        Map<String, Object>[] envelopes =
-            (Map<String, Object>[]) caseDetails.get("bulkScanEnvelopes");
-        assertThat(envelopes.length).isEqualTo(envelopeActions.length);
+        List<Map<String, Object>> envelopes =
+            (List<Map<String, Object>>) caseDetails.get("bulkScanEnvelopes");
+        assertThat(envelopes.size()).isEqualTo(envelopeActions.length);
         for (int i = 0; i < envelopeActions.length; i++) {
-            Map<String, String> values = (Map<String, String>) envelopes[i].get("value");
+            Map<String, String> values = (Map<String, String>) envelopes.get(i).get("value");
             assertThat(values.get("id")).isEqualTo(envelopeActions[i].envelopeId);
             assertThat(values.get("action")).isEqualTo(envelopeActions[i].action);
         }
