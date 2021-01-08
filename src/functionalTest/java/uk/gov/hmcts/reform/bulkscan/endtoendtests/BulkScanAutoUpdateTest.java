@@ -62,7 +62,7 @@ public class BulkScanAutoUpdateTest {
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
         assertCaseFields(caseDataUpdated, "Name1", "Surname1", "e2e1@test.dev");
         assertCaseEnvelopes(
-            caseDataCreated,
+            caseDataUpdated,
             new EnvelopeAction[]{
                 new EnvelopeAction(envCreate.id, "create"),
                 new EnvelopeAction(envUpdate.id, "update")
