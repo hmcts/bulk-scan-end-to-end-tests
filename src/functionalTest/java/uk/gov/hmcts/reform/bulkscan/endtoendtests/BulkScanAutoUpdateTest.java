@@ -5,6 +5,8 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.EnvelopeAction;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
 import java.util.Map;
 
@@ -26,13 +28,19 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeDispatched(zipArchiveCreate.fileName);
         Await.envelopeCompleted(zipArchiveCreate.fileName);
 
-        assertCompletedProcessorResult(zipArchiveCreate.fileName, "CASE_CREATED");
+        ProcessorEnvelopeResult envCreate = getZipFileStatus(zipArchiveCreate.fileName).get();
+        assertCompletedProcessorResult(envCreate, "CASE_CREATED");
 
         String ccdId = getZipFileStatus(zipArchiveCreate.fileName).get().ccdId;
         Map<String, Object> caseDataCreated =
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
         assertCaseFields(caseDataCreated, "Name", "Surname", "e2e@test.dev");
-        assertCaseEnvelopes(caseDataCreated, new String[]{"create"});
+        assertCaseEnvelopes(
+            caseDataCreated,
+            new EnvelopeAction[]{
+                new EnvelopeAction(envCreate.id, "create")
+            }
+        );
 
         var zipArchiveUpdate = ZipFileHelper.createZipArchive(
             "test-data/auto-update",
@@ -46,22 +54,30 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeDispatched(zipArchiveUpdate.fileName);
         Await.envelopeCompleted(zipArchiveUpdate.fileName);
 
-        assertCompletedProcessorResult(zipArchiveUpdate.fileName, "AUTO_UPDATED_CASE");
+        ProcessorEnvelopeResult envUpdate = getZipFileStatus(zipArchiveUpdate.fileName).get();
+        assertCompletedProcessorResult(envUpdate, "AUTO_UPDATED_CASE");
 
         Map<String, Object> caseDataUpdated =
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
         assertCaseFields(caseDataUpdated, "Name1", "Surname1", "e2e1@test.dev");
-        assertCaseEnvelopes(caseDataUpdated, new String[]{"create", "update"});
+        assertCaseEnvelopes(
+            caseDataCreated,
+            new EnvelopeAction[]{
+                new EnvelopeAction(envCreate.id, "create"),
+                new EnvelopeAction(envUpdate.id, "update")
+            }
+        );
     }
 
-    private void assertCompletedProcessorResult(String zipFileName, String ccdAction) {
-        assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
+    private void assertCompletedProcessorResult(
+        ProcessorEnvelopeResult env,
+        String ccdAction
+    ) {
             assertThat(env.ccdId).isNotBlank();
             assertThat(env.container).isEqualTo(BULKSCAN_AUTO.name);
             assertThat(env.envelopeCcdAction).isEqualTo(ccdAction);
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
-        });
     }
 
     private void assertCaseFields(
@@ -77,14 +93,15 @@ public class BulkScanAutoUpdateTest {
 
     private void assertCaseEnvelopes(
         Map<String, Object> caseDetails,
-        String[] actions
+        EnvelopeAction[] envelopeActions
     ) {
         Map<String, Object>[] envelopes =
             (Map<String, Object>[]) caseDetails.get("bulkScanEnvelopes");
-        assertThat(envelopes.length).isEqualTo(actions.length);
-        for (int i = 0; i < actions.length; i++) {
+        assertThat(envelopes.length).isEqualTo(envelopeActions.length);
+        for (int i = 0; i < envelopeActions.length; i++) {
             Map<String, String> values = (Map<String, String>) envelopes[i].get("value");
-            assertThat(values.get("action")).isEqualTo(actions[i]);
+            assertThat(values.get("id")).isEqualTo(envelopeActions[i].envelopeId);
+            assertThat(values.get("action")).isEqualTo(envelopeActions[i].action);
         }
     }
 }
