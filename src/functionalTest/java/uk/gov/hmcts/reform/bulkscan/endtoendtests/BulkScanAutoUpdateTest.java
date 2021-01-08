@@ -73,11 +73,11 @@ public class BulkScanAutoUpdateTest {
         ProcessorEnvelopeResult env,
         String ccdAction
     ) {
-            assertThat(env.ccdId).isNotBlank();
-            assertThat(env.container).isEqualTo(BULKSCAN_AUTO.name);
-            assertThat(env.envelopeCcdAction).isEqualTo(ccdAction);
-            assertThat(env.id).isNotBlank();
-            assertThat(env.status).isEqualTo("COMPLETED");
+        assertThat(env.ccdId).isNotBlank();
+        assertThat(env.container).isEqualTo(BULKSCAN_AUTO.name);
+        assertThat(env.envelopeCcdAction).isEqualTo(ccdAction);
+        assertThat(env.id).isNotBlank();
+        assertThat(env.status).isEqualTo("COMPLETED");
     }
 
     private void assertCaseFields(
