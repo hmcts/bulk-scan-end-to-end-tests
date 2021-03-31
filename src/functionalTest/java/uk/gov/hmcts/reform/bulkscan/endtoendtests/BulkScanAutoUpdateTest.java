@@ -30,7 +30,7 @@ public class BulkScanAutoUpdateTest {
         Await.envelopeCompleted(zipArchiveCreate.fileName);
 
         ProcessorEnvelopeResult envCreate = getZipFileStatus(zipArchiveCreate.fileName).get();
-        assertCompletedProcessorResult(envCreate, "CASE_CREATED");
+        assertCompletedProcessorResult(envCreate, "AUTO_CREATED_CASE");
 
         String ccdId = getZipFileStatus(zipArchiveCreate.fileName).get().ccdId;
         Map<String, Object> caseDataCreated =

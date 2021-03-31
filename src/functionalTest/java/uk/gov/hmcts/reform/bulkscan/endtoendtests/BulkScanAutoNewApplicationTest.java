@@ -30,7 +30,7 @@ public class BulkScanAutoNewApplicationTest {
         assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
             assertThat(env.ccdId).isNotBlank();
             assertThat(env.container).isEqualTo(BULKSCAN_AUTO.name);
-            assertThat(env.envelopeCcdAction).isEqualTo("CASE_CREATED");
+            assertThat(env.envelopeCcdAction).isEqualTo("AUTO_CREATED_CASE");
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
         });
