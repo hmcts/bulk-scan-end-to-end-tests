@@ -13,7 +13,7 @@
     },
     {
       "metadata_field_name": "caveatorEmailAddress",
-      "metadata_field_value": "email@localhost"
+      "metadata_field_value": "email@localhost.com"
     },
     {
       "metadata_field_name": "caveatorAddressLine1",
@@ -73,7 +73,7 @@
     },
     {
       "metadata_field_name": "solsSolicitorEmail",
-      "metadata_field_value": ""
+      "metadata_field_value": "Solicitor.hobbit@hmcts.net"
     },
     {
       "metadata_field_name": "solsSolicitorPhoneNumber",
@@ -126,10 +126,6 @@
     {
       "metadata_field_name": "caseReference",
       "metadata_field_value": ""
-    },
-    {
-      "metadata_field_name": "primaryApplicantEmailAddress",
-      "metadata_field_value": "Joe.hobbit@hmcts.net"
     }
   ]
 }
