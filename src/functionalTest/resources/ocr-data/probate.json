@@ -126,6 +126,10 @@
     {
       "metadata_field_name": "caseReference",
       "metadata_field_value": ""
+    },
+    {
+      "metadata_field_name": "primaryApplicantEmailAddress",
+      "metadata_field_value": "fb@hmcts.net"
     }
   ]
 }
