@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.bulkscan.endtoendtests;
 
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Await;
-import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.StorageHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.model.Classification;
@@ -51,9 +50,9 @@ public class BulkScanAutoNewApplicationTest {
 
         String targetCaseNum = optEnvelopeResult.get().ccdId;
         var zipArchiveSupp = ZipFileHelper.createZipArchive(
-            "test-data/" + Classification.SUPPLEMENTARY_EVIDENCE, Container.BULKSCAN, targetCaseNum);
+            "test-data/" + Classification.SUPPLEMENTARY_EVIDENCE, BULKSCAN_AUTO, targetCaseNum);
 
-        StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchiveSupp);
+        StorageHelper.uploadZipFile(BULKSCAN_AUTO, zipArchiveSupp);
 
         Await.envelopeDispatched(zipArchiveSupp.fileName);
         Await.envelopeCompleted(zipArchiveSupp.fileName);
@@ -69,7 +68,7 @@ public class BulkScanAutoNewApplicationTest {
     private void assertCompletedSupplementaryResult(String zipFileName, String ccdId) {
         assertThat(getZipFileStatus(zipFileName)).hasValueSatisfying(env -> {
             assertThat(env.ccdId).isEqualTo(ccdId);
-            assertThat(env.container).isEqualTo(Container.BULKSCAN.name);
+            assertThat(env.container).isEqualTo(BULKSCAN_AUTO.name);
             assertThat(env.envelopeCcdAction).isEqualTo("AUTO_ATTACHED_TO_CASE");
             assertThat(env.id).isNotBlank();
             assertThat(env.status).isEqualTo("COMPLETED");
