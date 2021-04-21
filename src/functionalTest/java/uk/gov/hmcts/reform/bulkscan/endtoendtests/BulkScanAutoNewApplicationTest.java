@@ -49,8 +49,9 @@ public class BulkScanAutoNewApplicationTest {
 
         //attach supplementary evidence
 
+        String targetCaseNum = optEnvelopeResult.get().ccdId;
         var zipArchiveSupp = ZipFileHelper.createZipArchive(
-            "test-data/" + Classification.SUPPLEMENTARY_EVIDENCE, Container.BULKSCAN);
+            "test-data/" + Classification.SUPPLEMENTARY_EVIDENCE, Container.BULKSCAN, targetCaseNum);
 
         StorageHelper.uploadZipFile(Container.BULKSCAN, zipArchiveSupp);
 
@@ -60,7 +61,7 @@ public class BulkScanAutoNewApplicationTest {
         //get the process result again and assert
         assertCompletedSupplementaryResult(
             zipArchiveSupp.fileName,
-            optEnvelopeResult.get().ccdId
+            targetCaseNum
         );
 
     }

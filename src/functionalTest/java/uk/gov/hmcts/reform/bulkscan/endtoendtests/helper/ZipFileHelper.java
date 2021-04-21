@@ -45,6 +45,15 @@ public final class ZipFileHelper {
     public static ZipArchive createZipArchive(
         String dirName,
         Container container,
+        String caseNumber
+    ) throws Exception {
+        var ocrData = OcrDataEncoder.encodeDefaultOcrData(container);
+        return buildZipArchive(dirName, container, caseNumber, ocrData);
+    }
+
+    public static ZipArchive createZipArchive(
+        String dirName,
+        Container container,
         String caseNumber,
         String ocrDataFileName
     ) throws Exception {
