@@ -8,10 +8,10 @@ import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.ZipFileHelper;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.EnvelopeAction;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeResult;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient.assertCaseEnvelopes;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container.BULKSCAN_AUTO;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
@@ -32,7 +32,7 @@ public class BulkScanAutoUpdateTest {
         ProcessorEnvelopeResult envCreate = getZipFileStatus(zipArchiveCreate.fileName).get();
         assertCompletedProcessorResult(envCreate, "AUTO_CREATED_CASE");
 
-        String ccdId = getZipFileStatus(zipArchiveCreate.fileName).get().ccdId;
+        String ccdId = envCreate.ccdId;
         Map<String, Object> caseDataCreated =
             CcdClient.getCaseData(ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
         assertCaseFields(caseDataCreated, "Name", "Surname", "e2e@test.dev");
@@ -90,19 +90,5 @@ public class BulkScanAutoUpdateTest {
         assertThat(caseDetails.get("firstName")).isEqualTo(name);
         assertThat(caseDetails.get("lastName")).isEqualTo(surname);
         assertThat(caseDetails.get("email")).isEqualTo(email);
-    }
-
-    private void assertCaseEnvelopes(
-        Map<String, Object> caseDetails,
-        EnvelopeAction[] envelopeActions
-    ) {
-        List<Map<String, Object>> envelopes =
-            (List<Map<String, Object>>) caseDetails.get("bulkScanEnvelopes");
-        assertThat(envelopes.size()).isEqualTo(envelopeActions.length);
-        for (int i = 0; i < envelopeActions.length; i++) {
-            Map<String, String> values = (Map<String, String>) envelopes.get(i).get("value");
-            assertThat(values.get("id")).isEqualTo(envelopeActions[i].envelopeId);
-            assertThat(values.get("action")).isEqualTo(envelopeActions[i].action);
-        }
     }
 }

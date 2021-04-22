@@ -4,12 +4,14 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container;
 import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ContainerJurisdictionPoBoxMapper;
+import uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.EnvelopeAction;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getIdamToken;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.IdamClient.getUserId;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.S2SClient.getS2SToken;
@@ -164,5 +167,19 @@ public class CcdClient {
             .header("experimental", true)
             .header("Authorization", BEARER_TOKEN_PREFIX + idamToken)
             .header("ServiceAuthorization", BEARER_TOKEN_PREFIX + s2sToken);
+    }
+
+    public static void assertCaseEnvelopes(
+        Map<String, Object> caseDetails,
+        EnvelopeAction[] envelopeActions
+    ) {
+        List<Map<String, Object>> envelopes =
+            (List<Map<String, Object>>) caseDetails.get("bulkScanEnvelopes");
+        assertThat(envelopes.size()).isEqualTo(envelopeActions.length);
+        for (int i = 0; i < envelopeActions.length; i++) {
+            Map<String, String> values = (Map<String, String>) envelopes.get(i).get("value");
+            assertThat(values.get("id")).isEqualTo(envelopeActions[i].envelopeId);
+            assertThat(values.get("action")).isEqualTo(envelopeActions[i].action);
+        }
     }
 }
