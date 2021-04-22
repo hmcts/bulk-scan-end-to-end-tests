@@ -169,6 +169,7 @@ public class CcdClient {
             .header("ServiceAuthorization", BEARER_TOKEN_PREFIX + s2sToken);
     }
 
+    @SuppressWarnings("unchecked")
     public static void assertCaseEnvelopes(
         Map<String, Object> caseDetails,
         EnvelopeAction[] envelopeActions

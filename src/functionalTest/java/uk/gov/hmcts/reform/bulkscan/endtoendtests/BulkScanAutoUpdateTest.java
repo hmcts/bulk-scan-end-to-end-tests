@@ -15,7 +15,6 @@ import static uk.gov.hmcts.reform.bulkscan.endtoendtests.client.CcdClient.assert
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.helper.Container.BULKSCAN_AUTO;
 import static uk.gov.hmcts.reform.bulkscan.endtoendtests.utils.ProcessorEnvelopeStatusChecker.getZipFileStatus;
 
-@SuppressWarnings("unchecked")
 public class BulkScanAutoUpdateTest {
 
     @Test
