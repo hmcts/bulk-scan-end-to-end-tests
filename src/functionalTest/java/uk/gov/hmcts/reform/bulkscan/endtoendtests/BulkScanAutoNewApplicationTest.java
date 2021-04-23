@@ -76,14 +76,14 @@ public class BulkScanAutoNewApplicationTest {
         optEnvelopeResult
             = getZipFileStatus(zipArchiveSupp.fileName);
         assertCompletedAutoCaseResult(optEnvelopeResult, AUTO_ATTACHED_TO_CASE);
-        envCreate = optEnvelopeResult.get();
-        caseDataCreated =
-            CcdClient.getCaseData(envCreate.ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
+        var envUpdate = optEnvelopeResult.get();
+        var caseDataUpdated =
+            CcdClient.getCaseData(envUpdate.ccdId, BULKSCAN_AUTO.idamUserName, BULKSCAN_AUTO.idamPassword);
         assertCaseEnvelopes(
-            caseDataCreated,
+            caseDataUpdated,
             new EnvelopeAction[]{
                 new EnvelopeAction(envCreate.id, "create"),
-                new EnvelopeAction(envCreate.id, "update")
+                new EnvelopeAction(envUpdate.id, "update")
             }
         );
 
