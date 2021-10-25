@@ -127,6 +127,11 @@ dependencyManagement {
     dependencySet(group: 'commons-io', version: '2.11.0') {
       entry 'commons-io'
     }
+    // CVE-2021-37136, CVE-2021-37137
+    dependencySet(group: 'com.azure', version: '1.10.0') {
+      entry 'azure-core-http-netty'
+    }
+
   }
 }
 
