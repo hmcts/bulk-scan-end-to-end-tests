@@ -127,11 +127,6 @@ dependencyManagement {
     dependencySet(group: 'commons-io', version: '2.11.0') {
       entry 'commons-io'
     }
-    // CVE-2021-37136, CVE-2021-37137
-    dependencySet(group: 'com.azure', version: '1.10.0') {
-      entry 'azure-core-http-netty'
-    }
-
   }
 }
 
@@ -159,7 +154,7 @@ ext.libraries = [
 dependencies {
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.14.1'
-  implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.11.1'
+  implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.14.1'
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
   implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
   implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
