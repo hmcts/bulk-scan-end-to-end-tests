@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <!-- io.netty:netty-tcnative-classes:2.0.48.Final is the latest version -->
+    <!--  -->
     <suppress until="2022-05-08">
+        <notes><![CDATA[
+     io.netty:netty-tcnative-classes:2.0.48.Final is the latest version
+       ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.netty/netty\-tcnetty\-classes@.*$</packageUrl>
         <cve>CVE-2014-43797</cve>
         <cve>CVE-2014-3488</cve>
         <cve>CVE-2015-2156</cve>
