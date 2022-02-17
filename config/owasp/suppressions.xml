@@ -5,7 +5,7 @@
         <notes><![CDATA[
      io.netty:netty-tcnative-classes:2.0.48.Final is the latest version
        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/io\.netty/netty\-tcnetty\-classes@.*$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/io\.netty/netty\-tcnative\-classes@.*$</packageUrl>
         <cve>CVE-2014-43797</cve>
         <cve>CVE-2014-3488</cve>
         <cve>CVE-2015-2156</cve>
