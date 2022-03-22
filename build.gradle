@@ -137,10 +137,6 @@ dependencyManagement {
     dependencySet(group: 'org.springframework', version: '5.3.15') {
       entry 'spring-core'
     }
-    // CVE-2020-36518
-    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.13.0') {
-      entry 'jackson-databind'
-    }
   }
 }
 
