@@ -155,6 +155,7 @@ dependencies {
   implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
   implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
+  testImplementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
   testImplementation libraries.junit5
   testImplementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.7.6', {
     exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-openfeign'
