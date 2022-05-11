@@ -154,7 +154,7 @@ ext.libraries = [
 
 dependencies {
 
-  implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.15.0'
+  implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.16.0'
   implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
   implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
