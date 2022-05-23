@@ -125,8 +125,12 @@ dependencyManagement {
       entry 'commons-io'
     }
     // CVE-2020-36518
-    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.13.2.2') {
+    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.13.3') {
       entry 'jackson-databind'
+    }
+    // CVE-2022-25647
+    dependencySet(group: 'com.google.code.gson', version: '2.9.0') {
+      entry 'gson'
     }
   }
 }
