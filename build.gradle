@@ -138,7 +138,7 @@ dependencyManagement {
       entry 'gson'
     }
     //CVE-2022-24823
-    dependencySet(group: 'io.netty', version: '4.1.86.Final') {
+    dependencySet(group: 'io.netty', version: '4.1.88.Final') {
       entry 'netty-buffer'
       entry 'netty-codec'
       entry 'netty-codec-dns'
