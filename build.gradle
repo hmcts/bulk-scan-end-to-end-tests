@@ -134,7 +134,7 @@ dependencyManagement {
       entry 'jackson-databind'
     }
     // CVE-2022-25647
-    dependencySet(group: 'com.google.code.gson', version: '2.10') {
+    dependencySet(group: 'com.google.code.gson', version: '2.10.1') {
       entry 'gson'
     }
     //CVE-2022-24823
