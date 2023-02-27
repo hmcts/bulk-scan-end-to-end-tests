@@ -66,7 +66,7 @@ checkstyle {
 }
 
 pmd {
-  toolVersion = "6.54.0"
+  toolVersion = "6.55.0"
   ignoreFailures = true
   sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest]
   reportsDir = file("$project.buildDir/reports/pmd")
