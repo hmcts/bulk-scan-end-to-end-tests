@@ -160,7 +160,7 @@ dependencyManagement {
       entry 'netty-transport-native-unix-common'
     }
     // CVE-2022-31684
-    dependencySet(group: 'io.projectreactor.netty', version: '1.1.6') {
+    dependencySet(group: 'io.projectreactor.netty', version: '1.1.7') {
       entry 'reactor-netty'
       entry 'reactor-netty-http'
     }
