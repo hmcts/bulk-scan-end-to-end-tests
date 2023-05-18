@@ -130,7 +130,7 @@ dependencyManagement {
       entry 'commons-io'
     }
     // CVE-2020-36518
-    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.15.0') {
+    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.15.1') {
       entry 'jackson-databind'
     }
     // CVE-2022-25647
