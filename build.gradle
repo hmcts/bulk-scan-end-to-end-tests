@@ -174,8 +174,8 @@ repositories {
 }
 
 def versions = [
-  junit        : '5.7.2',
-  junitPlatform: '1.7.2',
+  junit        : '5.11.2',
+  junitPlatform: '1.11.2',
 ]
 
 ext.libraries = [
